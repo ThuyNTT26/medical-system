@@ -60,18 +60,18 @@
 
 ---
 
-## ⚙️ Công nghệ sử dụng
+## 🛠️ Công nghệ sử dụng
 
-| Thành phần | Công nghệ |
-|------------|-----------|
-| Frontend   | HTML, CSS, JavaScript |
-| Backend    | FastAPI (Python) |
-| Database   | SQL (MySQL hoặc PostgreSQL) |
+- **Frontend**: HTML, CSS, JavaScript (vanilla)
+- **Backend**: Python + FastAPI
+- **Database**: SQLite / PostgreSQL (tùy chọn)
+- **Khác**: PlantUML (sơ đồ ERD), Fetch API (giao tiếp frontend-backend)
 
 ---
 
-Cấu trúc thư mục
+## 📁 Cấu trúc thư mục
 
+```
 📦 medical-system/
 ├── backend/
 │   ├── main.py                  # Điểm khởi động FastAPI
@@ -126,4 +126,25 @@ Cấu trúc thư mục
 │   │   └── seed_data.sql       # Dữ liệu mẫu
 │   └── erd.puml                # Sơ đồ quan hệ các bảng dùng PlantUML
 
-├── README.md
+├── .gitignore
+└── README.md
+```
+
+---
+
+## ▶️ Chạy project (demo)
+
+### Backend (FastAPI)
+```bash
+cd backend/
+python -m venv venv
+source venv/bin/activate  # hoặc venv\Scripts\activate trên Windows
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+### Frontend
+- Mở `index.html` trong trình duyệt (hoặc dùng server tĩnh nếu cần)
+- Giao tiếp với API bằng `fetch()` từ JS
+
+---
