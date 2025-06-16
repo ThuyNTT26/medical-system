@@ -1,0 +1,74 @@
+# ==== PYTHON / FASTAPI BACKEND ====
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+ENV/
+env/
+*.env
+
+# Tool & test caches
+.pytest_cache/
+.tox/
+.nox/
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.coverage
+coverage.*
+htmlcov/
+
+# Logs
+*.log
+
+# Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# SQLite or DB
+*.db
+*.sqlite3
+*.bak
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# ==== FRONTEND (HTML/CSS/JS) ====
+# Node modules (nếu dùng npm/yarn)
+node_modules/
+
+# Dist folder (nếu dùng build tools như vite, webpack...)
+dist/
+build/
+
+# Temporary/cache files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# ==== COMMON FOLDERS ====
+# Environment files
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Generated assets or exports
+__generated__/
+*.out

@@ -1,0 +1,108 @@
+@startuml
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+hide methods
+hide stereotypes
+
+Table(BenhNhan, "Patient") {
+  + id : int <<PK>>
+  hoTen : string
+  ngaySinh : date
+  gioiTinh : string
+  soDienThoai : string
+  diaChi : string
+}
+
+Table(BacSi, "Doctor") {
+  + id : int <<PK>>
+  hoTen : string
+  chuyenKhoa : string
+  soDienThoai : string
+}
+
+Table(NhanVien, "Staff") {
+  + id : int <<PK>>
+  hoTen : string
+  chucVu : string
+  soDienThoai : string
+}
+
+Table(TaiKhoan, "Account") {
+  + id : int <<PK>>
+  tenDangNhap : string
+  matKhau : string
+  vaiTro : string
+  user_id : int <<FK>>
+  user_type : string
+}
+
+Table(LichHen, "Appointment") {
+  + id : int <<PK>>
+  benhNhan_id : int <<FK>>
+  ngayHen : date
+  gioHen : time
+  trangThai : string
+}
+
+Table(PhieuKham, "Medical Exam") {
+  + id : int <<PK>>
+  benhNhan_id : int <<FK>>
+  bacSi_id : int <<FK>>
+  ngayKham : date
+  trieuChung : string
+  chuanDoan : string
+}
+
+Table(KetQuaKham, "Exam Result") {
+  + id : int <<PK>>
+  phieuKham_id : int <<FK>>
+  chiTiet : string
+}
+
+Table(Thuoc, "Medicine") {
+  + id : int <<PK>>
+  tenThuoc : string
+  donVi : string
+  gia : float
+}
+
+Table(DonThuoc, "Prescription") {
+  + id : int <<PK>>
+  phieuKham_id : int <<FK>>
+  ngayKe : date
+}
+
+Table(ChiTietDonThuoc, "Prescription Detail") {
+  + id : int <<PK>>
+  donThuoc_id : int <<FK>>
+  thuoc_id : int <<FK>>
+  lieuDung : string
+  soLuong : int
+}
+
+Table(ThanhToan, "Payment") {
+  + id : int <<PK>>
+  phieuKham_id : int <<FK>>
+  tienThuoc : float
+  tienKham : float
+  tongTien : float
+  ngayGio : datetime
+}
+
+' English Relations
+BenhNhan ||--o{ LichHen : schedules
+BenhNhan ||--o{ PhieuKham : has
+BenhNhan ||--o{ TaiKhoan : owns
+
+BacSi ||--o{ PhieuKham : conducts
+BacSi ||--o{ TaiKhoan : owns
+
+NhanVien ||--o{ TaiKhoan : owns
+
+PhieuKham ||--o{ KetQuaKham : produces
+PhieuKham ||--o{ DonThuoc : creates
+PhieuKham ||--o{ ThanhToan : generates
+
+DonThuoc ||--o{ ChiTietDonThuoc : contains
+Thuoc ||--o{ ChiTietDonThuoc : appears_in
+
+@enduml

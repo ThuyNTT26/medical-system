@@ -70,3 +70,60 @@
 
 ---
 
+Cấu trúc thư mục
+
+📦 medical-system/
+├── backend/
+│   ├── main.py                  # Điểm khởi động FastAPI
+│   ├── core/                    # Cấu hình chung (DB, bảo mật, tiện ích)
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   └── security.py
+│   ├── api/
+│   │   ├── v1/
+│   │   │   ├── exam/            # Thành viên 1 – Khám bệnh, đơn thuốc
+│   │   │   │   ├── routes.py
+│   │   │   │   ├── models.py
+│   │   │   │   ├── schemas.py
+│   │   │   │   └── services.py
+│   │   │   ├── patient/         # Thành viên 2 – Bệnh nhân, lịch hẹn
+│   │   │   │   ├── routes.py
+│   │   │   │   ├── models.py
+│   │   │   │   ├── schemas.py
+│   │   │   │   └── services.py
+│   │   │   ├── auth/            # Thành viên 2 – Đăng nhập, phân quyền
+│   │   │   │   └── ...
+│   │   │   ├── drug/            # Thành viên 3 – Kho thuốc
+│   │   │   │   └── ...
+│   │   │   ├── payment/         # Thành viên 3 – Thanh toán
+│   │   │   │   └── ...
+│   │   │   ├── stats/           # Thành viên 3 – Thống kê & báo cáo
+│   │   │   │   └── ...
+│   └── requirements.txt
+
+├── frontend/
+│   ├── index.html
+│   ├── exam/                   # Thành viên 1 – Giao diện khám bệnh
+│   │   ├── exam.html
+│   │   ├── exam.js
+│   │   └── ...
+│   ├── patient/                # Thành viên 2 – Bệnh nhân, lịch hẹn
+│   │   ├── patient.html
+│   │   ├── patient.js
+│   │   └── ...
+│   ├── auth/                   # Thành viên 2 – Đăng nhập
+│   ├── drug/                   # Thành viên 3 – Kho thuốc
+│   ├── payment/                # Thành viên 3 – Thanh toán
+│   ├── stats/                  # Thành viên 3 – Thống kê
+│   └── css/
+│       └── style.css
+
+├── database/
+│   ├── schema/
+│   │   ├── 1_exam.sql          # Thành viên 1 – Phiếu khám, đơn thuốc
+│   │   ├── 2_patient.sql       # Thành viên 2 – Bệnh nhân, tài khoản
+│   │   ├── 3_drug.sql          # Thành viên 3 – Thuốc, hóa đơn, báo cáo
+│   │   └── seed_data.sql       # Dữ liệu mẫu
+│   └── erd.puml                # Sơ đồ quan hệ các bảng dùng PlantUML
+
+├── README.md
