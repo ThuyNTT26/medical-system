@@ -1,0 +1,6 @@
+CREATE TABLE taikhoan (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tenDangNhap TEXT UNIQUE NOT NULL,
+    matKhau TEXT NOT NULL,
+    vaiTro TEXT NOT NULL
+);

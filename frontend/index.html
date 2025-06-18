@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trang chủ - Quản lý phòng khám</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/static/style.css" />
+  <script src="/frontend/auth/auth.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🏥 Phòng khám SHIN</div>
+    <nav class="nav">
+      <a href="/frontend/index.html">Trang chủ</a>
+      <a href="/frontend/patient/patient.html">Quản lý bệnh nhân</a>
+      <button onclick="logout()">Đăng xuất</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="hero-title">Chào mừng đến với hệ thống quản lý phòng khám</h1>
+    <p class="hero-subtitle">Hệ thống giúp quản lý bệnh nhân, lịch hẹn, đơn thuốc và nhiều chức năng khác một cách thuận tiện và chính xác.</p>
+
+    <div class="feature-list">
+      <div class="feature-card">
+        <h3>📋 Quản lý bệnh nhân</h3>
+        <p>Theo dõi thông tin cá nhân, tiền sử bệnh lý và tra cứu nhanh chóng.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📆 Quản lý lịch hẹn</h3>
+        <p>Đặt và theo dõi lịch hẹn của bệnh nhân dễ dàng.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💊 Quản lý kê đơn</h3>
+        <p>Quản lý thuốc và đơn kê của bác sĩ theo từng bệnh nhân.</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "/frontend/auth/login.html";
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/frontend/auth/login.html";
+      }
+    });
+  </script>
+</body>
+</html>

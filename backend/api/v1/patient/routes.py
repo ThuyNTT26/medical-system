@@ -1,26 +1,35 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from backend.core.database import get_db
-from backend.api.v1.patient import schemas, services
-from backend.core.security import get_current_user  # Bảo vệ API
+from . import schemas, services
 
-router = APIRouter(
-    prefix="/api/v1/patient",
-    tags=["patient"]
-)
-
-@router.post("/", response_model=schemas.BenhNhanOut)
-def create_patient(benhnhan: schemas.BenhNhanCreate, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    return services.create_benhnhan(db, benhnhan)
+router = APIRouter(tags=["Bệnh nhân"])
 
 @router.get("/", response_model=list[schemas.BenhNhanOut])
-def get_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    return services.get_benhnhan(db, skip, limit)
+def get_all(db: Session = Depends(get_db)):
+    return services.get_all(db)
 
-@router.post("/appointment", response_model=schemas.LichHenOut)
-def create_appointment(lichhen: schemas.LichHenCreate, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    return services.create_lichhen(db, lichhen)
+@router.get("/{id}", response_model=schemas.BenhNhanOut)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    bn = services.get_by_id(db, id)
+    if not bn:
+        raise HTTPException(status_code=404, detail="Không tìm thấy bệnh nhân")
+    return bn
 
-@router.get("/appointment", response_model=list[schemas.LichHenOut])
-def get_appointments(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    return services.get_lichhen(db, skip, limit)
+@router.post("/", response_model=schemas.BenhNhanOut)
+def create(data: schemas.BenhNhanCreate, db: Session = Depends(get_db)):
+    return services.create(db, data)
+
+@router.put("/{id}", response_model=schemas.BenhNhanOut)
+def update(id: int, data: schemas.BenhNhanUpdate, db: Session = Depends(get_db)):
+    return services.update(db, id, data)
+
+@router.delete("/{id}")
+def delete(id: int, db: Session = Depends(get_db)):
+    if not services.delete(db, id):
+        raise HTTPException(status_code=404, detail="Xoá thất bại")
+    return {"message": "Xoá thành công"}
+
+@router.get("/{id}/hosos")
+def get_hoso(id: int, db: Session = Depends(get_db)):
+    return services.get_hoso_chi_tiet(db, id)
