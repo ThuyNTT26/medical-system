@@ -4,15 +4,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-# Import router từng phần
-from backend.api.v1.exam import routes as exam_routes
-from backend.api.v1.patient import routes as patient_routes
-from backend.api.v1.auth import routes as auth_routes
-from backend.api.v1.appointment import routes as appointment_routes
-
-from backend.core.database import engine
-from backend.api.v1.auth.models import TaiKhoan
-
 from backend.seed_admin import create_admin
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +26,15 @@ from backend.api.v1.donthuoc import routes as donthuoc_routes
 from backend.api.v1.benh import routes as benh_routes
 from backend.api.v1.thuoc import routes as thuoc_routes
 from backend.api.v1.chitietdonthuoc import routes as chitiet_routes
+from backend.api.v1.drug import routes as drug_routes
+from backend.api.v1.payment import routes as payment_routes
+from backend.api.v1.exam import routes as exam_routes
+from backend.api.v1.patient import routes as patient_routes
+from backend.api.v1.auth import routes as auth_routes
+from backend.api.v1.appointment import routes as appointment_routes
+
+from backend.core.database import engine
+from backend.api.v1.auth.models import TaiKhoan
 
 # Tạo bảng nếu chưa tồn tại
 Base.metadata.create_all(bind=engine)
@@ -51,7 +51,6 @@ def startup_event():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -86,6 +85,8 @@ app.include_router(donthuoc_routes.router, prefix="/api/v1/donthuoc")
 app.include_router(benh_routes.router, prefix="/api/v1/benh")
 app.include_router(thuoc_routes.router, prefix="/api/v1/thuoc")
 app.include_router(chitiet_routes.router, prefix="/api/v1")
+app.include_router(drug_routes.router, prefix="/api/v1/drug")
+app.include_router(payment_routes.router, prefix="/api/v1/payment")
 # Static files & HTML templates
 #app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 templates = Jinja2Templates(directory="frontend")
