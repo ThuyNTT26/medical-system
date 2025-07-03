@@ -1,9 +1,9 @@
 # === backend/api/v1/patient/schemas.py ===
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
-from datetime import date
+from datetime import date, time
 
-
+# === Base schema ===
 class BenhNhanBase(BaseModel):
     hoTen: str
     ngaySinh: Optional[date]
@@ -20,8 +20,10 @@ class BenhNhanCreate(BenhNhanBase):
 class BenhNhanUpdate(BenhNhanBase):
     pass
 
+# ✅ Sửa: dùng alias để map MaBenhNhan -> id
 class BenhNhanOut(BenhNhanBase):
-    id: int
+    MaBenhNhan: str
+
     class Config:
         from_attributes = True
 
@@ -30,6 +32,7 @@ class LichHenOut(BaseModel):
     id: int
     ngay_kham: Optional[date]
     ly_do: Optional[str]
+
     class Config:
         from_attributes = True
 
@@ -37,6 +40,7 @@ class KetQuaOut(BaseModel):
     id: int
     chan_doan: Optional[str]
     ghi_chu: Optional[str]
+
     class Config:
         from_attributes = True
 
@@ -45,6 +49,7 @@ class DonThuocOut(BaseModel):
     thuoc: Optional[str]
     lieu_luong: Optional[str]
     huong_dan: Optional[str]
+
     class Config:
         from_attributes = True
 

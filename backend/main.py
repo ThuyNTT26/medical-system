@@ -8,16 +8,20 @@ from fastapi.templating import Jinja2Templates
 from backend.api.v1.exam import routes as exam_routes
 from backend.api.v1.patient import routes as patient_routes
 from backend.api.v1.auth import routes as auth_routes
+from backend.api.v1.appointment import routes as appointment_routes
 
-from backend.core.database import Base, engine
+from backend.core.database import engine
 from backend.api.v1.auth.models import TaiKhoan
-from backend.api.v1.patient.models import BenhNhan
 
-Base.metadata.create_all(bind=engine)
+from backend.seed_admin import create_admin
 
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Medical Management System")
+
+@app.on_event("startup")
+def startup_event():
+    create_admin()
 
 # CORS cho phép gọi API từ frontend
 app.add_middleware(
@@ -49,6 +53,7 @@ async def dashboard_page(request: Request):
 app.include_router(exam_routes.router, prefix="/api/v1/exam")
 app.include_router(patient_routes.router, prefix="/api/v1/patient")
 app.include_router(auth_routes.router, prefix="/api/v1/auth")
+app.include_router(appointment_routes.router, prefix="/api/v1/appointments")
 
 for route in app.router.routes:
     print(route.path)

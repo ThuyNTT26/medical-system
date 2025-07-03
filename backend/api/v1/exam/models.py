@@ -1,28 +1,28 @@
 # backend/api/v1/exam/models.py
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Time
 from sqlalchemy.orm import relationship
 from backend.core.database import Base
 
-class LichHen(Base):
-    __tablename__ = "lichhen"
-    id = Column(Integer, primary_key=True, index=True)
-    benh_nhan_id = Column(Integer, ForeignKey("benhnhan.id"))
-    ngay_kham = Column(Date)
-    ly_do = Column(String(255))
+class KetQuaKham(Base):
+    __tablename__ = "ketquakham"
 
-    benh_nhan = relationship("BenhNhan", back_populates="lichhen")
+    MaKetQua = Column(String(10), primary_key=True, index=True)
+    MaPhieuKham = Column(String(10), ForeignKey("phieukhambenh.MaPhieuKham"), unique=True)
+    LoaiXetNghiem = Column(String(100))
+    KetQuaXetNghiem = Column(Text)
+    NgayThucHien = Column(Date)
+    MaBenhNhan = Column(String(10), ForeignKey("benhnhan.MaBenhNhan"))
+    benh_nhan = relationship("BenhNhan", back_populates="ket_qua_kham")
+    don_thuoc = relationship("DonThuoc", back_populates="ket_qua")
 
-class KetQua(Base):
-    __tablename__ = "ketqua"
-    id = Column(Integer, primary_key=True, index=True)
-    benh_nhan_id = Column(Integer, ForeignKey("benhnhan.id"))
-    chan_doan = Column(String(255))
-    ghi_chu = Column(Text)
 
 class DonThuoc(Base):
     __tablename__ = "donthuoc"
-    id = Column(Integer, primary_key=True, index=True)
-    benh_nhan_id = Column(Integer, ForeignKey("benhnhan.id"))
-    thuoc = Column(String(255))
-    lieu_luong = Column(String(255))
-    huong_dan = Column(Text)
+
+    MaDonThuoc = Column(String(10), primary_key=True, index=True)
+    MaKetQua = Column(String(10), ForeignKey("ketquakham.MaKetQua"))
+    NgayKeDon = Column(Date)
+    GhiChu = Column(Text)
+
+    ket_qua = relationship("KetQuaKham", back_populates="don_thuoc")
+

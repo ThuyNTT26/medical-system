@@ -8,6 +8,7 @@
     <script src="../auth/auth.js" defer></script>
   </head>
   <body>
+    <div id="header-container"></div>
     <div class="container">
       <h2>Danh sách bệnh nhân</h2>
 
@@ -46,10 +47,14 @@
 
       <h3>Thêm / Cập nhật bệnh nhân</h3>
       <form id="patient-form">
-        <input type="hidden" id="id" />
+        <input type="hidden" id="MaBenhNhan" />
         <input type="text" id="hoTen" placeholder="Họ tên" required />
         <input type="date" id="ngaySinh" />
-        <input type="text" id="gioiTinh" placeholder="Giới tính" />
+        <select id="gioiTinh" required>
+          <option value="">-- Chọn giới tính --</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
         <input type="text" id="soDienThoai" placeholder="SĐT" />
         <input type="email" id="email" placeholder="Email" />
         <input type="text" id="diaChi" placeholder="Địa chỉ" />
@@ -58,5 +63,25 @@
         <button type="submit">Lưu</button>
       </form>
     </div>
+    <!-- Hộp thoại hồ sơ bệnh nhân -->
+    <div id="hoso-dialog" class="modal" style="display: none">
+      <div class="modal-content">
+        <span
+          onclick="closeHosoDialog()"
+          class="close"
+          style="float: right; cursor: pointer"
+          >&times;</span
+        >
+        <div id="hoso-dialog-content"></div>
+      </div>
+    </div>
   </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

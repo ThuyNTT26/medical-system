@@ -2,41 +2,69 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Trang chủ - Quản lý phòng khám</title>
+  <title>Dashboard - Phòng khám SHIN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/frontend/static/style.css" />
   <script src="/frontend/auth/auth.js" defer></script>
+  <link rel="stylesheet" href="../static/style.css" />
+
+
 </head>
 <body>
   <header class="header">
     <div class="logo">🏥 Phòng khám SHIN</div>
     <nav class="nav">
       <a href="/frontend/index.html">Trang chủ</a>
-      <a href="/frontend/patient/patient.html">Quản lý bệnh nhân</a>
+      <a href="/frontend/patient/patient.html">Bệnh nhân</a>
+      <a href="/frontend/appointment/appointment.html">Lịch hẹn</a>
+      <a href="/frontend/drug/drug.html">Đơn thuốc</a>
+      <a href="/frontend/stats/stats.html">Thống kê</a>
       <button onclick="logout()">Đăng xuất</button>
     </nav>
   </header>
 
   <main class="container">
-    <h1 class="hero-title">Chào mừng đến với hệ thống quản lý phòng khám</h1>
-    <p class="hero-subtitle">Hệ thống giúp quản lý bệnh nhân, lịch hẹn, đơn thuốc và nhiều chức năng khác một cách thuận tiện và chính xác.</p>
+    <section class="hero">
+      <h1>Chào mừng đến với Hệ thống quản lý phòng khám SHIN</h1>
+      <p>Nâng tầm trải nghiệm y tế – Chăm sóc sức khỏe thông minh, hiện đại và hiệu quả.</p>
+    </section>
 
-    <div class="feature-list">
+    <section class="intro">
+      <h2>🌟 Về phòng khám SHIN</h2>
+      <p>
+        Phòng khám SHIN là đơn vị tiên phong trong việc ứng dụng công nghệ hiện đại vào công tác khám chữa bệnh.
+        Với hệ thống quản lý toàn diện từ tiếp nhận bệnh nhân, đặt lịch hẹn, quản lý đơn thuốc đến phân tích thống kê –
+        SHIN cam kết mang lại hiệu quả tối ưu trong vận hành và chăm sóc bệnh nhân.
+      </p>
+      <p>
+        Hệ thống sử dụng công nghệ bảo mật cao, giao diện thân thiện, dữ liệu thời gian thực và tích hợp tự động giữa các phòng ban.
+      </p>
+    </section>
+
+    <section class="features">
       <div class="feature-card">
         <h3>📋 Quản lý bệnh nhân</h3>
-        <p>Theo dõi thông tin cá nhân, tiền sử bệnh lý và tra cứu nhanh chóng.</p>
+        <p>Ghi nhận thông tin chi tiết, lịch sử khám và tiền sử bệnh lý của bệnh nhân.</p>
       </div>
       <div class="feature-card">
         <h3>📆 Quản lý lịch hẹn</h3>
-        <p>Đặt và theo dõi lịch hẹn của bệnh nhân dễ dàng.</p>
+        <p>Đặt lịch nhanh chóng, theo dõi trạng thái và phân công bác sĩ hợp lý.</p>
       </div>
       <div class="feature-card">
-        <h3>💊 Quản lý kê đơn</h3>
-        <p>Quản lý thuốc và đơn kê của bác sĩ theo từng bệnh nhân.</p>
+        <h3>💊 Quản lý đơn thuốc</h3>
+        <p>Kê đơn chính xác, kiểm tra tương tác thuốc và lưu trữ hồ sơ lâu dài.</p>
       </div>
-    </div>
+      <div class="feature-card">
+        <h3>📊 Thống kê & báo cáo</h3>
+        <p>Phân tích dữ liệu, biểu đồ tổng hợp và hỗ trợ ra quyết định kịp thời.</p>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    © 2025 Phòng khám SHIN. All rights reserved.
+  </footer>
 
   <script>
     function logout() {
@@ -52,4 +80,5 @@
     });
   </script>
 </body>
+<script src="/frontend/index.js" defer></script>
 </html>
