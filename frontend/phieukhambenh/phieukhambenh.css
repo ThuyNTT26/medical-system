@@ -1,0 +1,65 @@
+div {
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.all {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 3px solid gray;
+}
+
+.head h1 {
+  color: #2c2e83;
+}
+
+.thanhtimkiem {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.thanhtimkiem input {
+  flex: 1;
+  padding: 6px;
+  margin-right: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #2c2e83;
+  color: white;
+}
+
+button {
+  background-color: #2c2e83;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 2px;
+  font-size: 13px;
+}
+
+button:hover {
+  background-color: #3e40a1;
+}

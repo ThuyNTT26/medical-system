@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phiếu khám bệnh</title>
+  <link rel="stylesheet" href="./phieukhambenh.css" />
+</head>
+<body>
+  <div class="all">
+    <div class="head">
+      <h1>PHIẾU KHÁM BỆNH</h1>
+    </div>
+
+    <div class="thanhtimkiem">
+      <input type="text" id="searchPhieu" placeholder="Tìm mã phiếu, bệnh nhân hoặc bác sĩ" />
+      <div>
+        <button onclick="timKiemPhieu()">Tìm kiếm</button>
+        <button onclick="taiDanhSachPhieu()">Hiển thị tất</button>
+      </div>
+    </div>
+
+    <div style="margin: 20px 0;">
+      <button onclick="hienDongMoiPhieu()">Thêm phiếu khám</button>
+    </div>
+
+    <div>
+      <table id="bangPhieu">
+        <thead>
+          <tr>
+            <th>Mã phiếu</th>
+            <th>Mã bệnh nhân</th>
+            <th>Mã bác sĩ</th>
+            <th>Ngày khám</th>
+            <th>Triệu chứng</th>
+            <th>Chẩn đoán</th>
+            <th>Hướng điều trị</th>
+            <th>Mã lịch hẹn</th>
+            <th>Chức năng</th>
+          </tr>
+        </thead>
+        <tbody id="phieu-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="phieukhambenh.js"></script>
+</body>
+</html>
