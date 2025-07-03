@@ -1,23 +1,15 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-# 👉 Kết nối CSDL MySQL 
-DATABASE_URL = "mysql+pymysql://root:trang091106@localhost/phongkhamtunhan"
+DATABASE_URL = "mysql+pymysql://root:123456@localhost/medical_system"
 
-# 👉 Tạo engine kết nối CSDL
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,  # kiểm tra kết nối còn sống trước khi dùng
-    echo=False           # bật True nếu bạn muốn xem log các câu SQL
-)
+engine = create_engine( DATABASE_URL)
 
-# 👉 SessionLocal là phiên làm việc với DB
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-# 👉 Base dùng để kế thừa trong các model (các bảng)
 Base = declarative_base()
 
-# 👉 Dependency cho FastAPI (sử dụng trong các route)
 def get_db():
     db = SessionLocal()
     try:
