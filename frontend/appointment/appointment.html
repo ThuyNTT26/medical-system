@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lịch hẹn khám</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <script src="appointment.js" defer></script>
+    <script src="../auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+    <div class="container">
+      <h2 class="section-title">📆 Quản lý lịch hẹn khám</h2>
+
+      <div class="form-container">
+        <form id="appointment-form" class="form-grid">
+          <input type="hidden" id="MaLichHen" />
+
+          <div class="form-group">
+            <label for="MaBenhNhan">Mã bệnh nhân</label>
+            <input
+              list="ds-benhnhan"
+              id="MaBenhNhan"
+              placeholder="Nhập mã hoặc chọn..."
+              required
+            />
+            <datalist id="ds-benhnhan"></datalist>
+          </div>
+
+          <div class="form-group">
+            <label for="MaBacSi">Mã bác sĩ</label>
+            <input
+              list="ds-bacsi"
+              id="MaBacSi"
+              placeholder="Nhập mã hoặc chọn..."
+              required
+            />
+            <datalist id="ds-bacsi"></datalist>
+          </div>
+
+          <div class="form-group">
+            <label for="NgayHen">Ngày hẹn</label>
+            <input type="date" id="NgayHen" required />
+          </div>
+
+          <div class="form-group">
+            <label for="GioHen">Giờ hẹn</label>
+            <input type="time" id="GioHen" required />
+          </div>
+
+          <div class="form-group">
+            <label for="TrangThai">Trạng thái</label>
+            <select id="TrangThai">
+              <option value="Chưa khám">Chưa khám</option>
+              <option value="Đã khám">Đã khám</option>
+              <option value="Huỷ">Huỷ</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="LyDo">Lý do</label>
+            <textarea id="LyDo" rows="2" placeholder="Lý do khám..."></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <button type="submit" class="btn-save">💾 Lưu lịch hẹn</button>
+            <button type="reset" class="btn-reset" onclick="resetForm()">
+              🧹 Làm mới
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <hr />
+
+      <h3 class="section-subtitle">📄 Danh sách lịch hẹn</h3>
+      <table id="appointment-table" class="table">
+        <thead>
+          <tr>
+            <th>Mã</th>
+            <th>Bệnh nhân</th>
+            <th>Bác sĩ</th>
+            <th>Ngày</th>
+            <th>Giờ</th>
+            <th>Trạng thái</th>
+            <th>Lý do</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
+</html>

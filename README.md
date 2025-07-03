@@ -91,7 +91,7 @@
 │   │   │   │   ├── models.py
 │   │   │   │   ├── schemas.py
 │   │   │   │   └── services.py
-│   │   │   ├── auth/            # Thành viên 2 – Đăng nhập, phân quyền
+│   │   │   ├── auth/            # Thành viên 2 – Đăng nhập
 │   │   │   │   └── ...
 │   │   │   ├── drug/            # Thành viên 3 – Kho thuốc
 │   │   │   │   └── ...
@@ -129,7 +129,12 @@
 ├── .gitignore
 └── README.md
 ```
-
+-----------------------------
+Tên file	Mục đích
+models.py	Khai báo model SQLAlchemy cho bảng 
+schemas.py	Định nghĩa schema Pydantic
+services.py	Xử lý nghiệp vụ CRUD
+routes.py	Router FastAPI /api/v1/...
 ---
 
 ## ▶️ Chạy project (demo)
@@ -144,7 +149,19 @@ uvicorn main:app --reload
 ```
 
 ### Frontend
-- Mở `index.html` trong trình duyệt (hoặc dùng server tĩnh nếu cần)
+- Mở `index.html` trong trình duyệt 
 - Giao tiếp với API bằng `fetch()` từ JS
+
+---
+
+### database
+- MySQL
+- mysql -u root -p medical_system< database/schema/init.sql
+- mysql -u root -p medical_system< database/schema/4_account.sql
+* dummy data:
+- mysql -u root -p medical_system< database/schema/seed-data.sql
+
+username: admin
+password: 123456
 
 ---
