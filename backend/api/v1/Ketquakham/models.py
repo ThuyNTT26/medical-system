@@ -10,3 +10,6 @@ class KetQuaKham(Base):
     LoaiXetNghiem = Column(String(50))
     KetQuaXetNghiem = Column(Text)
     NgayThucHien = Column(Date)
+
+    MaBenhNhan = Column(String(10), ForeignKey("benhnhan.MaBenhNhan"))
+    benh_nhan = relationship("BenhNhan", back_populates="ket_qua_kham")

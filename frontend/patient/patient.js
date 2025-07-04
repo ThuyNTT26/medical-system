@@ -99,6 +99,9 @@ async function editPatient(id) {
   document.getElementById("diaChi").value = p.diaChi;
   document.getElementById("cccd").value = p.cccd;
   document.getElementById("tienSuBenhLy").value = p.tienSuBenhLy;
+
+  
+  document.getElementById("patient-form").scrollIntoView({ behavior: "smooth" });
 }
 
 async function deletePatient(id) {

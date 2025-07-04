@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from core.database import get_db
+from backend.core.database import get_db
 from . import services, schemas
 
 router = APIRouter(tags=["Thuoc"])

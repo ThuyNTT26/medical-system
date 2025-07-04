@@ -14,27 +14,18 @@ from fastapi.templating import Jinja2Templates
 # Database setup
 from backend.core.database import Base, engine
 
-from backend.api.v1.phieukhambenh.models import PhieuKhamBenh
-from backend.api.v1.Ketquakham.models import KetQuaKham
-from backend.api.v1.donthuoc.models import DonThuoc
-from backend.api.v1.benh.models import Benh
-from backend.api.v1.thuoc.models import Thuoc
-from backend.api.v1.chitietdonthuoc.models import ChiTietDonThuoc
 from backend.api.v1.phieukhambenh.routes import router as kham_router
 from backend.api.v1.Ketquakham import routes as ketquakham_routes
 from backend.api.v1.donthuoc import routes as donthuoc_routes
 from backend.api.v1.benh import routes as benh_routes
-from backend.api.v1.thuoc import routes as thuoc_routes
 from backend.api.v1.chitietdonthuoc import routes as chitiet_routes
 from backend.api.v1.drug import routes as drug_routes
 from backend.api.v1.payment import routes as payment_routes
-from backend.api.v1.exam import routes as exam_routes
 from backend.api.v1.patient import routes as patient_routes
 from backend.api.v1.auth import routes as auth_routes
 from backend.api.v1.appointment import routes as appointment_routes
 
 from backend.core.database import engine
-from backend.api.v1.auth.models import TaiKhoan
 
 # Tạo bảng nếu chưa tồn tại
 Base.metadata.create_all(bind=engine)
@@ -74,7 +65,7 @@ async def dashboard_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # Gắn các route backend vào API chính
-app.include_router(exam_routes.router, prefix="/api/v1/exam")
+# app.include_router(exam_routes.router, prefix="/api/v1/exam")
 app.include_router(patient_routes.router, prefix="/api/v1/patient")
 app.include_router(auth_routes.router, prefix="/api/v1/auth")
 app.include_router(appointment_routes.router, prefix="/api/v1/appointments")
@@ -83,7 +74,6 @@ app.include_router(kham_router, prefix="/api/v1/phieukhambenh")
 app.include_router(ketquakham_routes.router, prefix="/api/v1/ketquakham")
 app.include_router(donthuoc_routes.router, prefix="/api/v1/donthuoc")
 app.include_router(benh_routes.router, prefix="/api/v1/benh")
-app.include_router(thuoc_routes.router, prefix="/api/v1/thuoc")
 app.include_router(chitiet_routes.router, prefix="/api/v1")
 app.include_router(drug_routes.router, prefix="/api/v1/drug")
 app.include_router(payment_routes.router, prefix="/api/v1/payment")

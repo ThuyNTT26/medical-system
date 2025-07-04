@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DECIMAL, DateTime
-from core.database import Base
+from backend.core.database import Base
 
 class ThanhToan(Base):
     __tablename__ = "ThanhToan"

@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from backend.api.v1.patient.models import BenhNhan
 from backend.api.v1.appointment.models import LichHenKham
-from backend.api.v1.exam.models import KetQuaKham, DonThuoc
+from backend.api.v1.Ketquakham.models import KetQuaKham
+from backend.api.v1.donthuoc.models import DonThuoc
 from backend.api.v1.appointment.schemas import LichHenCreate
 
 from fastapi import HTTPException

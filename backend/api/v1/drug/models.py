@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, Float, Date, Text
-from core.database import Base
+from backend.core.database import Base
 
 class Thuoc(Base):
     __tablename__ = "Thuoc"

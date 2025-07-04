@@ -1,11 +1,13 @@
 from sqlalchemy import Column, String, Date, Time, ForeignKey
 from sqlalchemy.orm import relationship
 from backend.core.database import Base
-from backend.api.v1.exam.models import KetQuaKham, DonThuoc
+from backend.api.v1.Ketquakham.models import KetQuaKham
+from backend.api.v1.donthuoc.models import DonThuoc
 from backend.api.v1.appointment.models import LichHenKham
 
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
+
 
 class BenhNhan(Base):
     __tablename__ = "benhnhan"
@@ -19,8 +21,12 @@ class BenhNhan(Base):
     diaChi = Column(String)
     cccd = Column(String)
     tienSuBenhLy = Column(String)
-    ket_qua_kham = relationship("KetQuaKham", back_populates="benh_nhan", cascade="all, delete-orphan")
+    ket_qua_kham = relationship(
+        "KetQuaKham", back_populates="benh_nhan", cascade="all, delete-orphan"
+    )
     lich_hen = relationship("LichHenKham", back_populates="benh_nhan")
+
+
 def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
     bn = db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
     if not bn:
@@ -34,7 +40,7 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
         "benh_nhan": bn,
         "lich_su": lich_su,
         "ket_qua": ket_qua,
-        "don_thuoc": don_thuoc
+        "don_thuoc": don_thuoc,
     }
 
 
@@ -56,4 +62,3 @@ class LichLamViec(Base):
     Ngay = Column(Date)
     GioBatDau = Column(Time)
     GioKetThuc = Column(Time)
-
