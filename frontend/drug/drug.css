@@ -57,5 +57,6 @@ button:hover {
   flex-direction: column;
   justify-content: space-between;
   margin: 20px;
+  margin-left: 240px;
   
 }

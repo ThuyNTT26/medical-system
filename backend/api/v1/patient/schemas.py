@@ -29,7 +29,7 @@ class BenhNhanOut(BenhNhanBase):
 
 # --- Schema cho hồ sơ ---
 class LichHenOut(BaseModel):
-    id: int
+    MaLichHen: str
     ngay_kham: Optional[date]
     ly_do: Optional[str]
 

@@ -1,7 +1,14 @@
 # backend/api/v1/appointment/schemas.py
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import date, time
+
+class LichHenOutHistory(BaseModel):
+    MaLichHen: str 
+    ngay_kham: Optional[date]
+    ly_do: Optional[str]
+    
+    model_config = ConfigDict(from_attributes=True) 
 
 class LichHenBase(BaseModel):
     MaBenhNhan: Optional[str]
@@ -26,6 +33,3 @@ class LichHenUpdate(BaseModel):
 
 class LichHenOut(LichHenBase):
     MaLichHen: str
-
-    class Config:
-        orm_mode = True

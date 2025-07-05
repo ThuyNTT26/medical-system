@@ -1,4 +1,3 @@
-// frontend/patient/patient.js
 const API_URL = "http://127.0.0.1:8000/api/v1/patient";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -100,7 +99,6 @@ async function editPatient(id) {
   document.getElementById("cccd").value = p.cccd;
   document.getElementById("tienSuBenhLy").value = p.tienSuBenhLy;
 
-  
   document.getElementById("patient-form").scrollIntoView({ behavior: "smooth" });
 }
 
@@ -161,14 +159,18 @@ async function viewPatient(id) {
       }</p>
       <p><strong>SĐT:</strong> ${data.benh_nhan.soDienThoai || ""}</p>
       <p><strong>CCCD:</strong> ${data.benh_nhan.cccd || ""}</p>
-      <p><strong>Tiền sử bệnh lý:</strong> ${
-        data.benh_nhan.tienSuBenhLy || ""
-      }</p>
+      <p><strong>Tiền sử bệnh lý:</strong> ${data.benh_nhan.tienSuBenhLy || ""}</p>
 
       <h3>Lịch sử khám</h3>
-      <ul>${(data.lich_su || [])
-        .map((l) => `<li>${l.ngay_kham} - ${l.ly_do}</li>`)
-        .join("")}</ul>
+      <ul>
+        ${(data.lich_su || [])
+          .map((l) => {
+            const ngay = l.NgayHen || l.ngay_kham || "Chưa rõ";
+            const lydo = l.LyDo || l.ly_do || "Không có lý do";
+            return `<li>${ngay} - ${lydo}</li>`;
+          })
+          .join("")}
+      </ul>
 
       <h3>Kết quả điều trị</h3>
       <ul>${(data.ket_qua || [])

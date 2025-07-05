@@ -1,46 +1,61 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kết quả khám</title>
-  <link rel="stylesheet" href="./ketquakham.css" />
-</head>
-<body>
-  <div class="all">
-    <div class="head">
-      <h1>KẾT QUẢ KHÁM</h1>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết quả khám</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="./ketquakham.css" />
+    <script src="../auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+    <div class="all">
+      <div class="head">
+        <h1>KẾT QUẢ KHÁM</h1>
+      </div>
 
-    <div class="thanhtimkiem">
-      <input type="text" id="searchKetQua" placeholder="Tìm mã kết quả hoặc phiếu khám" />
+      <div class="thanhtimkiem">
+        <input
+          type="text"
+          id="searchKetQua"
+          placeholder="Tìm mã kết quả hoặc phiếu khám"
+        />
+        <div>
+          <button onclick="timKiemKetQua()">Tìm kiếm</button>
+          <button onclick="taiDanhSachKetQua()">Hiển thị tất</button>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0">
+        <button onclick="hienDongMoiKetQua()">Thêm kết quả</button>
+      </div>
+
       <div>
-        <button onclick="timKiemKetQua()">Tìm kiếm</button>
-        <button onclick="taiDanhSachKetQua()">Hiển thị tất</button>
+        <table id="bangKetQua">
+          <thead>
+            <tr>
+              <th>Mã kết quả</th>
+              <th>Mã phiếu khám</th>
+              <th>Loại xét nghiệm</th>
+              <th>Kết quả</th>
+              <th>Ngày thực hiện</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="ketqua-body"></tbody>
+        </table>
       </div>
     </div>
 
-    <div style="margin: 20px 0;">
-      <button onclick="hienDongMoiKetQua()">Thêm kết quả</button>
-    </div>
+    <script src="ketquakham.js"></script>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
 
-    <div>
-      <table id="bangKetQua">
-        <thead>
-          <tr>
-            <th>Mã kết quả</th>
-            <th>Mã phiếu khám</th>
-            <th>Loại xét nghiệm</th>
-            <th>Kết quả</th>
-            <th>Ngày thực hiện</th>
-            <th>Chức năng</th>
-          </tr>
-        </thead>
-        <tbody id="ketqua-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="ketquakham.js"></script>
-</body>
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

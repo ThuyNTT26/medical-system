@@ -21,6 +21,7 @@ document.getElementById("login-form").onsubmit = async function (e) {
     })
     .then((data) => {
       localStorage.setItem("token", data.access_token);
+      localStorage.setItem("username", username);
       window.location.href = "../index.html";
     })
     .catch((err) => {

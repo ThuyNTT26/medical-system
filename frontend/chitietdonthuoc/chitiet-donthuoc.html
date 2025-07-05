@@ -1,44 +1,59 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chi tiết đơn thuốc</title>
-  <link rel="stylesheet" href="./chitiet-don-thuoc.css" />
-</head>
-<body>
-  <div class="all">
-    <div class="head">
-      <h1>CHI TIẾT ĐƠN THUỐC</h1>
-    </div>
-    <div class="thanhtimkiem">
-      <input type="text" id="searchDetail" placeholder="Tìm kiếm thuốc hoặc đơn" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết đơn thuốc</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="./chitiet-don-thuoc.css" />
+    <script src="../auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+    <div class="all">
+      <div class="head">
+        <h1>CHI TIẾT ĐƠN THUỐC</h1>
+      </div>
+      <div class="thanhtimkiem">
+        <input
+          type="text"
+          id="searchDetail"
+          placeholder="Tìm kiếm thuốc hoặc đơn"
+        />
+        <div>
+          <button onclick="timKiemChiTiet()">Tìm kiếm</button>
+          <button onclick="taiDanhSachChiTiet()">Hiển thị tất</button>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0">
+        <button onclick="hienDongMoiChiTiet()">Thêm chi tiết</button>
+      </div>
+
       <div>
-        <button onclick="timKiemChiTiet()">Tìm kiếm</button>
-        <button onclick="taiDanhSachChiTiet()">Hiển thị tất</button>
+        <table id="bangChiTiet">
+          <thead>
+            <tr>
+              <th>ID thuốc</th>
+              <th>ID đơn thuốc</th>
+              <th>Số lượng</th>
+              <th>Liều dùng</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="detail-body"></tbody>
+        </table>
       </div>
     </div>
 
-    <div style="margin: 20px 0;">
-      <button onclick="hienDongMoiChiTiet()">Thêm chi tiết</button>
-    </div>
+    <script src="chitietdonthuoc.js"></script>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
 
-    <div>
-      <table id="bangChiTiet">
-        <thead>
-          <tr>
-            <th>ID thuốc</th>
-            <th>ID đơn thuốc</th>
-            <th>Số lượng</th>
-            <th>Liều dùng</th>
-            <th>Chức năng</th>
-          </tr>
-        </thead>
-        <tbody id="detail-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="chitietdonthuoc.js"></script>
-</body>
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

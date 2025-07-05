@@ -5,7 +5,7 @@ class PhieuKhamBenh(Base):
     __tablename__ = "PhieuKhamBenh"
 
     MaPhieuKham = Column(String(50), primary_key=True)
-    MaBenhNhan = Column(String(50), ForeignKey("BenhNhan.MaBenhNhan"))
+    MaBenhNhan = Column(String(50), ForeignKey("BenhNhan.MaBenhNhan", ondelete="SET NULL"), nullable=True)
     MaBacSi = Column(String(50), ForeignKey("BacSi.MaBacSi"))
     NgayKham = Column(Date)
     TrieuChung = Column(Text)

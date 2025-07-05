@@ -8,6 +8,14 @@ DROP DATABASE IF EXISTS medical_system;
 CREATE DATABASE medical_system;
 USE medical_system;
 
+CREATE TABLE `taikhoan` (
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `tenDangNhap` VARCHAR(100) UNIQUE NOT NULL,
+    `matKhau` VARCHAR(255) NOT NULL,
+    `vaiTro` VARCHAR(50) NOT NULL
+);
+
+
 -- Table structure for table `bacsi`
 DROP TABLE IF EXISTS `bacsi`;
 CREATE TABLE `bacsi` (
@@ -216,15 +224,20 @@ FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`);
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_3`
-FOREIGN KEY (`MaLichHen`) REFERENCES `lichhenkham` (`MaLichHen`);
+FOREIGN KEY (`MaLichHen`) REFERENCES `lichhenkham` (`MaLichHen`)
+ON DELETE CASCADE;
+
 ALTER TABLE `thanhtoan`
 ADD CONSTRAINT `thanhtoan_ibfk_1`
-FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`);
+FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`)
+ON DELETE CASCADE;
 
 ALTER TABLE `thanhtoan`
 ADD CONSTRAINT `thanhtoan_ibfk_2`
-FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
+FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`)
+ON DELETE CASCADE;
 
 ALTER TABLE `thanhtoan`
 ADD CONSTRAINT `thanhtoan_ibfk_3`
-FOREIGN KEY (`NguoiThuTien`) REFERENCES `nhanvien` (`MaNhanVien`);
+FOREIGN KEY (`NguoiThuTien`) REFERENCES `nhanvien` (`MaNhanVien`)
+ON DELETE CASCADE;

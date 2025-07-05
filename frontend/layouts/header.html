@@ -1,11 +1,26 @@
 <!-- frontend/layouts/header.html -->
 <header class="header">
-  <div class="logo">🏥 Phòng khám SHIN</div>
-  <nav class="nav">
-    <a href="/frontend/index.html">Trang chủ</a>
-    <a href="/frontend/patient/patient.html">Quản lý bệnh nhân</a>
-    <a href="/frontend/appointment/appointment.html">Lịch hẹn</a>
-    <a href="/frontend/drug/drug.html">Kê đơn</a>
-    <button onclick="logout()">Đăng xuất</button>
-  </nav>
+  <div class="logo">🏥 SHIN</div>
+  <div class="right-info">
+    <span><i class="bell">🔔</i></span>
+    <span class="user-name" id="username">Username</span>
+  </div>
 </header>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="/frontend/patient/patient.html">Bệnh nhân</a></li>
+    <li><a href="/frontend/doctor/doctor.html">Bác sĩ</a></li>
+    <li><a href="/frontend/appointment/appointment.html">Lịch hẹn khám</a></li>
+    <li><a href="/frontend/donthuoc/donthuoc.html">Đơn thuốc</a></li>
+    <li><a href="/frontend/drug/drug.html">Thuốc</a></li>
+    <li><a href="/frontend/ketquakham/ketquakham.html">Kết quả khám</a></li>
+    <li><a href="/frontend/payment/payment.html">Thanh toán</a></li>
+    <li><a href="/frontend/phieukhambenh/phieukhambenh.html">Phiếu khám bệnh</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    <button onclick="logout()">Đăng xuất</button>
+  </div>
+</div>

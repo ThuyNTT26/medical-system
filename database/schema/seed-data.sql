@@ -8,6 +8,13 @@ DROP DATABASE IF EXISTS medical_system;
 CREATE DATABASE medical_system;
 USE medical_system;
 
+CREATE TABLE `taikhoan` (
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `tenDangNhap` VARCHAR(100) UNIQUE NOT NULL,
+    `matKhau` VARCHAR(255) NOT NULL,
+    `vaiTro` VARCHAR(50) NOT NULL
+);
+
 --
 -- Table structure for table `bacsi`
 --
@@ -299,15 +306,15 @@ ADD CONSTRAINT `chitietdonthuoc_ibfk_1` FOREIGN KEY (`MaDonThuoc`) REFERENCES `d
 ALTER TABLE `chitietdonthuoc`
 ADD CONSTRAINT `chitietdonthuoc_ibfk_2` FOREIGN KEY (`MaThuoc`) REFERENCES `thuoc` (`MaThuoc`);
 
-ALTER TABLE `donthuoc`
-ADD CONSTRAINT `donthuoc_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
+-- ALTER TABLE `donthuoc`
+-- ADD CONSTRAINT `donthuoc_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
 
 alter table `ketquakham`
-add CONSTRAINT `ketquakham_ibfk_1` FOREIGN KEY (`MaPhieuKham`) REFERENCES `phieukhambenh` (`MaPhieuKham`);
-ALTER TABLE `ketquakham` ADD CONSTRAINT `fk_benhnhan` FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan`(`MaBenhNhan`);
+add CONSTRAINT `ketquakham_ibfk_1` FOREIGN KEY (`MaPhieuKham`) REFERENCES `phieukhambenh` (`MaPhieuKham`) ON DELETE CASCADE;;
+ALTER TABLE `ketquakham` ADD CONSTRAINT `fk_benhnhan` FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan`(`MaBenhNhan`) ON DELETE CASCADE;;
 
-alter table `benh`
-add CONSTRAINT `benh_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
+-- alter table `benh`
+-- add CONSTRAINT `benh_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
 ALTER TABLE `lichhenkham`
 ADD CONSTRAINT `lichhenkham_ibfk_1`
 FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`);
@@ -322,7 +329,9 @@ FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`);
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_1`
-FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`);
+FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`)
+ON DELETE SET NULL;
+
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_2`
@@ -330,14 +339,17 @@ FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`);
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_3`
-FOREIGN KEY (`MaLichHen`) REFERENCES `lichhenkham` (`MaLichHen`);
-ALTER TABLE `thanhtoan`
-ADD CONSTRAINT `thanhtoan_ibfk_1`
-FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`);
+FOREIGN KEY (`MaLichHen`) REFERENCES `lichhenkham` (`MaLichHen`)
+ON DELETE CASCADE;
 
 ALTER TABLE `thanhtoan`
-ADD CONSTRAINT `thanhtoan_ibfk_2`
-FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
+ADD CONSTRAINT `thanhtoan_ibfk_1`
+FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan`(`MaBenhNhan`)
+ON DELETE CASCADE;
+
+-- ALTER TABLE `thanhtoan`
+-- ADD CONSTRAINT `thanhtoan_ibfk_2`
+-- FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
 
 ALTER TABLE `thanhtoan`
 ADD CONSTRAINT `thanhtoan_ibfk_3`

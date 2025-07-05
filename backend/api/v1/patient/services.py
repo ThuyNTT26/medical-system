@@ -5,6 +5,7 @@ from backend.api.v1.appointment.models import LichHenKham
 from backend.api.v1.Ketquakham.models import KetQuaKham
 from backend.api.v1.donthuoc.models import DonThuoc
 from backend.api.v1.appointment.schemas import LichHenCreate
+from backend.api.v1.appointment.schemas import LichHenOutHistory
 
 from fastapi import HTTPException
 
@@ -58,19 +59,38 @@ def delete(db: Session, ma_benh_nhan: str):
         db.commit()
     return bn
 
+
 def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
     bn = db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
     if not bn:
         raise HTTPException(status_code=404, detail="Không tìm thấy bệnh nhân")
 
-    lich_su = db.query(LichHenKham).filter(LichHenKham.MaBenhNhan == ma_benh_nhan).all()
-    ket_qua = db.query(KetQuaKham).filter(KetQuaKham.MaPhieuKham.in_(
+    lich_su_raw = db.query(LichHenKham).filter(LichHenKham.MaBenhNhan == ma_benh_nhan).all()
+    lich_su = [
+        schemas.LichHenOut(
+            MaLichHen=l.MaLichHen,             
+            ngay_kham=l.NgayHen,
+            ly_do=l.LyDo
+        ) for l in lich_su_raw
+]
+    
+
+    ket_qua_raw = db.query(KetQuaKham).filter(KetQuaKham.MaPhieuKham.in_(
         db.query(KetQuaKham.MaPhieuKham).join(LichHenKham, KetQuaKham.MaPhieuKham == LichHenKham.MaLichHen)
         .filter(LichHenKham.MaBenhNhan == ma_benh_nhan)
     )).all()
-    don_thuoc = db.query(DonThuoc).filter(DonThuoc.MaKetQua.in_(
-        [k.MaKetQua for k in ket_qua]
+    ket_qua = [
+        schemas.KetQuaOut(chan_doan=k.ChanDoan, ghi_chu=k.GhiChu)
+        for k in ket_qua_raw
+    ]
+
+    don_thuoc_raw = db.query(DonThuoc).filter(DonThuoc.MaKetQua.in_(
+        [k.MaKetQua for k in ket_qua_raw]
     )).all()
+    don_thuoc = [
+        schemas.DonThuocOut(thuoc=d.Thuoc, lieu_luong=d.LieuLuong)
+        for d in don_thuoc_raw
+    ]
 
     return {
         "benh_nhan": bn,
@@ -78,6 +98,8 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
         "ket_qua": ket_qua,
         "don_thuoc": don_thuoc,
     }
+
+
 
 def get_lichhen(db: Session):
     return db.query(LichHenKham).all()

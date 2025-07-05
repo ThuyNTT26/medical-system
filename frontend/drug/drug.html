@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quản lý thuốc</title>
-  <link rel="stylesheet" href="drug.css" />
-</head>
-<body>
-  <div class="all">
-    <div class="thanhtimkiem">
-      <input type="text" id="search-input" placeholder="Tìm kiếm" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý thuốc</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="drug.css" />
+    <script src="../auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+    <div class="all">
+      <div class="thanhtimkiem">
+        <input type="text" id="search-input" placeholder="Tìm kiếm" />
+        <div>
+          <button onclick="timKiemThuoc()">Tìm kiếm</button>
+          <button onclick="hienThiTatCa()">Hiển thị tất</button>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0px">
+        <button onclick="hienDongThemMoi()">Thêm thuốc</button>
+      </div>
+
       <div>
-        <button onclick="timKiemThuoc()">Tìm kiếm</button>
-        <button onclick="hienThiTatCa()">Hiển thị tất</button>
+        <table id="thuocTable">
+          <thead>
+            <tr>
+              <th>ID thuốc</th>
+              <th>Tên thuốc</th>
+              <th>Đơn vị tính</th>
+              <th>Hàm lượng</th>
+              <th>Công dụng</th>
+              <th>Số lượng tồn</th>
+              <th>Giá bán</th>
+              <th>Ngày hết hạn</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="danhSachThuoc">
+            <!-- Dữ liệu sẽ được đổ từ drug.js -->
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <div style="margin: 20px 0px;">
-      <button onclick="hienDongThemMoi()">Thêm thuốc</button>
-    </div>
+    <script src="drug.js"></script>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
 
-    <div>
-      <table id="thuocTable">
-        <thead>
-          <tr>
-            <th>ID thuốc</th>
-            <th>Tên thuốc</th>
-            <th>Đơn vị tính</th>
-            <th>Hàm lượng</th>
-            <th>Công dụng</th>
-            <th>Số lượng tồn</th>
-            <th>Giá bán</th>
-            <th>Ngày hết hạn</th>
-            <th>Chức năng</th>
-          </tr>
-        </thead>
-        <tbody id="danhSachThuoc">
-          <!-- Dữ liệu sẽ được đổ từ drug.js -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="drug.js"></script>
-</body>
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

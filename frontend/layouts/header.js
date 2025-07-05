@@ -29,3 +29,12 @@ export function logout() {
   localStorage.removeItem("token");
   window.location.href = "/frontend/auth/login.html";
 }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const username = localStorage.getItem("username");
+    if (username) {
+      document.getElementById("username").textContent = username;
+    } else {
+      document.getElementById("username").textContent = "Người dùng";
+    }
+  });

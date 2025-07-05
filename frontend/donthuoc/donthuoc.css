@@ -8,6 +8,7 @@ div {
   display: flex;
   flex-direction: column;
   margin: 20px;
+  margin-left: 240px;
 }
 
 /* Tiêu đề trang */

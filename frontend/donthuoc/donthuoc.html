@@ -4,9 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Đơn thuốc</title>
+    <link rel="stylesheet" href="../static/style.css" />
   <link rel="stylesheet" href="./donthuoc.css" />
+    <script src="../auth/auth.js" defer></script>
 </head>
 <body>
+    <div id="header-container"></div>
   <div class="all">
     <div class="head">
       <h1>ĐƠN THUỐC</h1>
@@ -42,4 +45,12 @@
 
   <script src="donthuoc.js"></script>
 </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

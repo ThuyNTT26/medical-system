@@ -1,48 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quản lý thanh toán</title>
-  <link rel="stylesheet" href="payment.css" />
-</head>
-<body>
-  <div class="all">
-    <div class="thanhtimkiem">
-      <input type="text" id="searchBill" placeholder="Tìm kiếm theo ID bệnh nhân" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý thanh toán</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="payment.css" />
+    <script src="../auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+    <div class="all">
+      <div class="thanhtimkiem">
+        <input
+          type="text"
+          id="searchBill"
+          placeholder="Tìm kiếm theo ID bệnh nhân"
+        />
+        <div>
+          <button onclick="timKiemHoaDon()">Tìm kiếm</button>
+          <button onclick="taiDanhSachThanhToan()">Hiển thị tất</button>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0px">
+        <button onclick="hienDongMoiThanhToan()">Thêm hóa đơn</button>
+      </div>
+
       <div>
-        <button onclick="timKiemHoaDon()">Tìm kiếm</button>
-        <button onclick="taiDanhSachThanhToan()">Hiển thị tất</button>
+        <table id="bangThanhToan">
+          <thead>
+            <tr>
+              <th>ID hóa đơn</th>
+              <th>ID bệnh nhân</th>
+              <th>ID kết quả</th>
+              <th>Loại hóa đơn</th>
+              <th>Số tiền</th>
+              <th>Số tiền đã trả</th>
+              <th>Số tiền còn nợ</th>
+              <th>Thời gian thanh toán</th>
+              <th style="width: 70px">Hình thức thanh toán</th>
+              <th>ID nhân viên</th>
+              <th>Trạng thái</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="payment-body"></tbody>
+        </table>
       </div>
     </div>
 
-    <div style="margin: 20px 0px;">
-      <button onclick="hienDongMoiThanhToan()">Thêm hóa đơn</button>
-    </div>
+    <script src="payment.js"></script>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
 
-    <div>
-      <table id="bangThanhToan">
-        <thead>
-          <tr>
-            <th>ID hóa đơn</th>
-            <th>ID bệnh nhân</th>
-            <th>ID kết quả</th>
-            <th>Loại hóa đơn</th>
-            <th>Số tiền</th>
-            <th>Số tiền đã trả</th>
-            <th>Số tiền còn nợ</th>
-            <th>Thời gian thanh toán</th>
-            <th style="width: 70px;">Hình thức thanh toán</th>
-            <th>ID nhân viên</th>
-            <th>Trạng thái</th>
-            <th>Chức năng</th>
-          </tr>
-        </thead>
-        <tbody id="payment-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="payment.js"></script>
-</body>
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>
