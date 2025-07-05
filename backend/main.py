@@ -14,6 +14,11 @@ from fastapi.templating import Jinja2Templates
 # Database setup
 from backend.core.database import Base, engine
 
+from backend.api.v1.phieukhambenh.models import PhieuKhamBenh
+from backend.api.v1.Ketquakham.models import KetQuaKham
+from backend.api.v1.donthuoc.models import DonThuoc
+from backend.api.v1.benh.models import Benh
+from backend.api.v1.chitietdonthuoc.models import ChiTietDonThuoc
 from backend.api.v1.phieukhambenh.routes import router as kham_router
 from backend.api.v1.Ketquakham import routes as ketquakham_routes
 from backend.api.v1.donthuoc import routes as donthuoc_routes
