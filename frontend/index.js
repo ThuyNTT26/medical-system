@@ -19,3 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/frontend/auth/login.html";
   });
 });
+
+window.addEventListener("DOMContentLoaded", () => {
+  const username = localStorage.getItem("username") || "Người dùng";
+  document.getElementById("username").innerText = username;
+
+  const slides = document.querySelectorAll(".slide");
+  let current = 0;
+
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+  }, 4000);
+});
+

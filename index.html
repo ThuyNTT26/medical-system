@@ -1,112 +1,125 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hệ thống Quản lý Phòng khám</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/frontend/static/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="/frontend/auth/auth.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
     <div class="container">
-        <h1>Quản lý Thông tin Bác sĩ</h1>
-        <div class="card">
-            <h2>Thêm Bác sĩ Mới</h2>
-            <form id="addDoctorForm">
-                <div class="form-group">
-                    <label for="maBacSi">Mã Bác sĩ:</label>
-                    <input type="text" id="maBacSi" name="maBacSi" required>
-                </div>
-                <div class="form-group">
-                    <label for="tenBacSi">Tên Bác sĩ:</label>
-                    <input type="text" id="tenBacSi" name="tenBacSi" required>
-                </div>
-                <div class="form-group">
-                    <label for="chuyenKhoa">Chuyên khoa:</label>
-                    <input type="text" id="chuyenKhoa" name="chuyenKhoa" required>
-                </div>
-                <div class="form-group">
-                    <label for="soDienThoai">Số điện thoại:</label>
-                    <input type="tel" id="soDienThoai" name="soDienThoai">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
-                </div>
-                <button type="submit" class="btn btn-primary">Thêm Bác sĩ</button>
-            </form>
-        </div>
-        <div class="card mt-20">
-            <h2>Danh sách Bác sĩ</h2>
-            <table id="doctorTable">
-                <thead>
-                    <tr>
-                        <th>Mã Bác sĩ</th>
-                        <th>Tên Bác sĩ</th>
-                        <th>Chuyên khoa</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>BS001</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>Nội tổng quát</td>
-                        <td>0901234567</td>
-                        <td>vana@clinic.com</td>
-                        <td>
-                            <button class="btn btn-secondary">Sửa</button>
-                            <button class="btn btn-danger">Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>BS002</td>
-                        <td>Trần Thị B</td>
-                        <td>Nhi khoa</td>
-                        <td>0907654321</td>
-                        <td>thib@clinic.com</td>
-                        <td>
-                            <button class="btn btn-secondary">Sửa</button>
-                            <button class="btn btn-danger">Xóa</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <h1>Quản lý Thông tin Bác sĩ</h1>
+      <div class="card">
+        <h2>Thêm Bác sĩ Mới</h2>
+        <form id="addDoctorForm">
+          <div class="form-group">
+            <label for="maBacSi">Mã Bác sĩ:</label>
+            <input type="text" id="maBacSi" name="maBacSi" required />
+          </div>
+          <div class="form-group">
+            <label for="tenBacSi">Tên Bác sĩ:</label>
+            <input type="text" id="tenBacSi" name="tenBacSi" required />
+          </div>
+          <div class="form-group">
+            <label for="chuyenKhoa">Chuyên khoa:</label>
+            <input type="text" id="chuyenKhoa" name="chuyenKhoa" required />
+          </div>
+          <div class="form-group">
+            <label for="soDienThoai">Số điện thoại:</label>
+            <input type="tel" id="soDienThoai" name="soDienThoai" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <button type="submit" class="btn-primary">Thêm Bác sĩ</button>
+        </form>
+      </div>
+      <div class="card mt-20">
+        <h2>Danh sách Bác sĩ</h2>
+        <table id="doctorTable">
+          <thead>
+            <tr>
+              <th>Mã Bác sĩ</th>
+              <th>Tên Bác sĩ</th>
+              <th>Chuyên khoa</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BS001</td>
+              <td>Nguyễn Văn A</td>
+              <td>Nội tổng quát</td>
+              <td>0901234567</td>
+              <td>vana@clinic.com</td>
+              <td>
+                <button class="btn btn-secondary">Sửa</button>
+                <button class="btn btn-danger">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>BS002</td>
+              <td>Trần Thị B</td>
+              <td>Nhi khoa</td>
+              <td>0907654321</td>
+              <td>thib@clinic.com</td>
+              <td>
+                <button class="btn btn-secondary">Sửa</button>
+                <button class="btn btn-danger">Xóa</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <script>
-        document.getElementById('addDoctorForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+      document
+        .getElementById("addDoctorForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-            const maBacSi = document.getElementById('maBacSi').value;
-            const tenBacSi = document.getElementById('tenBacSi').value;
-            const chuyenKhoa = document.getElementById('chuyenKhoa').value;
-            const soDienThoai = document.getElementById('soDienThoai').value;
-            const email = document.getElementById('email').value;
-            fetch('/api/doctors', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ maBacSi, tenBacSi, chuyenKhoa, soDienThoai, email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Thêm bác sĩ thành công!');
-                document.getElementById('addDoctorForm').reset(); 
+          const maBacSi = document.getElementById("maBacSi").value;
+          const tenBacSi = document.getElementById("tenBacSi").value;
+          const chuyenKhoa = document.getElementById("chuyenKhoa").value;
+          const soDienThoai = document.getElementById("soDienThoai").value;
+          const email = document.getElementById("email").value;
+          fetch("/api/doctors", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              maBacSi,
+              tenBacSi,
+              chuyenKhoa,
+              soDienThoai,
+              email,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Success:", data);
+              alert("Thêm bác sĩ thành công!");
+              document.getElementById("addDoctorForm").reset();
             })
             .catch((error) => {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi thêm bác sĩ.');
+              console.error("Error:", error);
+              alert("Có lỗi xảy ra khi thêm bác sĩ.");
             });
-            
-            alert(`Đã gửi thông tin bác sĩ:\nMã: ${maBacSi}\nTên: ${tenBacSi}\nChuyên khoa: ${chuyenKhoa}\nSĐT: ${soDienThoai}\nEmail: ${email}\n\n(Đây là thông báo giả định, cần backend để lưu dữ liệu thực tế)`);
-            const tableBody = document.querySelector('#doctorTable tbody');
-            const newRow = tableBody.insertRow();
-            newRow.innerHTML = `
+
+          alert(
+            `Đã gửi thông tin bác sĩ:\nMã: ${maBacSi}\nTên: ${tenBacSi}\nChuyên khoa: ${chuyenKhoa}\nSĐT: ${soDienThoai}\nEmail: ${email}\n\n(Đây là thông báo giả định, cần backend để lưu dữ liệu thực tế)`
+          );
+          const tableBody = document.querySelector("#doctorTable tbody");
+          const newRow = tableBody.insertRow();
+          newRow.innerHTML = `
                 <td>${maBacSi}</td>
                 <td>${tenBacSi}</td>
                 <td>${chuyenKhoa}</td>
@@ -118,8 +131,16 @@
                 </td>
             `;
 
-            document.getElementById('addDoctorForm').reset();
+          document.getElementById("addDoctorForm").reset();
         });
     </script>
-</body>
+  </body>
+  <script type="module">
+    import { loadHeader, checkAuth } from "/frontend/layouts/header.js";
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      checkAuth();
+      await loadHeader();
+    });
+  </script>
 </html>

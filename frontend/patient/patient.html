@@ -10,7 +10,7 @@
   <body>
     <div id="header-container"></div>
     <div class="container">
-      <h2>Danh sách bệnh nhân</h2>
+      <h2>Bệnh nhân</h2>
 
 
       <!-- Ô tìm kiếm -->
@@ -22,6 +22,27 @@
         <button onclick="searchPatients()">Tìm kiếm</button>
         <button onclick="loadPatients()">Làm mới</button>
       </div>
+
+      <h3>Thêm / Cập nhật bệnh nhân</h3>
+      <form id="patient-form">
+        <input type="hidden" id="MaBenhNhan" />
+        <input type="text" id="hoTen" placeholder="Họ tên" required />
+        <input type="date" id="ngaySinh" />
+        <select id="gioiTinh" required>
+          <option value="">-- Chọn giới tính --</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+        <input type="text" id="soDienThoai" placeholder="SĐT" />
+        <input type="email" id="email" placeholder="Email" />
+        <input type="text" id="diaChi" placeholder="Địa chỉ" />
+        <input type="text" id="cccd" placeholder="CCCD" />
+        <input type="text" id="tienSuBenhLy" placeholder="Tiền sử bệnh" />
+        <button type="submit">Lưu</button>
+      </form>
+
+
+      <h3>Danh sách bệnh nhân</h3>
 
       <table id="patient-table">
         <thead>
@@ -45,24 +66,6 @@
         <h3>Hồ sơ bệnh nhân</h3>
         <div id="hoso-content"></div>
       </div>
-
-      <h3>Thêm / Cập nhật bệnh nhân</h3>
-      <form id="patient-form">
-        <input type="hidden" id="MaBenhNhan" />
-        <input type="text" id="hoTen" placeholder="Họ tên" required />
-        <input type="date" id="ngaySinh" />
-        <select id="gioiTinh" required>
-          <option value="">-- Chọn giới tính --</option>
-          <option value="Nam">Nam</option>
-          <option value="Nữ">Nữ</option>
-        </select>
-        <input type="text" id="soDienThoai" placeholder="SĐT" />
-        <input type="email" id="email" placeholder="Email" />
-        <input type="text" id="diaChi" placeholder="Địa chỉ" />
-        <input type="text" id="cccd" placeholder="CCCD" />
-        <input type="text" id="tienSuBenhLy" placeholder="Tiền sử bệnh" />
-        <button type="submit">Lưu</button>
-      </form>
     </div>
     <!-- Hộp thoại hồ sơ bệnh nhân -->
     <div id="hoso-dialog" class="modal" style="display: none">

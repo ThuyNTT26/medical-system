@@ -13,5 +13,6 @@ class ThanhToan(Base):
     SoTienConNo = Column(DECIMAL(10,2), nullable=True)
     ThoiGianThanhToan = Column(DateTime)
     HinhThucThanhToan = Column(String(50))
-    MaNhanVien = Column(String(50), nullable=True)
+    NguoiThuTien = Column(String(50), nullable=True)
     TrangThai = Column(String(50))
+

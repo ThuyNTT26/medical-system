@@ -10,12 +10,8 @@ body {
 
 /* ======= Container ======= */
 .container {
-  max-width: 1000px;
-  margin: 40px auto;
-  background: #fff;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin-left: 240px;
 }
 
 /* ======= Headings ======= */
@@ -323,4 +319,16 @@ table td button:hover {
 
 .logout-btn:hover {
   background-color: #e53935;
+}
+
+.logo {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.logo:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
