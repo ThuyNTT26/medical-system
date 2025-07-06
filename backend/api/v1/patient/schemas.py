@@ -1,5 +1,5 @@
 # === backend/api/v1/patient/schemas.py ===
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import Optional, List
 from datetime import date, time
 
@@ -14,6 +14,18 @@ class BenhNhanBase(BaseModel):
     cccd: Optional[str]
     tienSuBenhLy: Optional[str]
 
+    @validator("gioiTinh", pre=True)
+    def normalize_gender(cls, v):
+        if v is None:
+            return None
+        v = v.strip().lower()
+        if v in ["M","m", "nam", "Nam"]:
+            return "Nam"
+        elif v in ["F","f", "nữ", "nu","Nữ"]:
+            return "Nữ"
+        else:
+            return v
+
 class BenhNhanCreate(BenhNhanBase):
     pass
 
@@ -21,11 +33,20 @@ class BenhNhanUpdate(BenhNhanBase):
     pass
 
 # ✅ Sửa: dùng alias để map MaBenhNhan -> id
-class BenhNhanOut(BenhNhanBase):
-    MaBenhNhan: str
+class BenhNhanOut(BaseModel):
+    maBenhNhan: str = Field(..., alias="MaBenhNhan")
+    hoTen: str = Field(..., alias="HoTen")
+    ngaySinh: Optional[date] = Field(None, alias="NgaySinh")
+    gioiTinh: Optional[str] = Field(None, alias="GioiTinh")
+    soDienThoai: Optional[str] = Field(None, alias="SoDienThoai")
+    email: Optional[str] = Field(None, alias="Email")
+    diaChi: Optional[str] = Field(None, alias="DiaChi")
+    cccd: Optional[str] = Field(None, alias="CCCD")
+    tienSuBenhLy: Optional[str] = Field(None, alias="TienSuBenhLy")
 
     class Config:
-        from_attributes = True
+        allow_population_by_field_name = True
+        orm_mode = True
 
 # --- Schema cho hồ sơ ---
 class LichHenOut(BaseModel):

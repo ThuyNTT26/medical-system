@@ -3,42 +3,72 @@ const API_URL = "http://127.0.0.1:8000/api/v1/appointments";
 document.addEventListener("DOMContentLoaded", () => {
   loadAppointments();
 
-  document.getElementById("appointment-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  document
+    .getElementById("appointment-form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const maLichHen = document.getElementById("MaLichHen").value;
-    const method = maLichHen ? "PUT" : "POST";
-    const url = maLichHen ? `${API_URL}/${maLichHen}` : API_URL;
+      const maLichHen = document.getElementById("MaLichHen").value;
+      const isUpdate = !!maLichHen;
+      const method = isUpdate ? "PUT" : "POST";
+      const url = isUpdate ? `${API_URL}/${maLichHen}` : API_URL;
 
-    const data = {
-      MaBenhNhan: document.getElementById("MaBenhNhan").value,
-      MaBacSi: document.getElementById("MaBacSi").value,
-      NgayHen: document.getElementById("NgayHen").value,
-      GioHen: document.getElementById("GioHen").value,
-      TrangThai: document.getElementById("TrangThai").value,
-      LyDo: document.getElementById("LyDo").value,
-    };
-    console.log("DỮ LIỆU GỬI:", data);
+      const data = {
+        MaBenhNhan: document.getElementById("MaBenhNhan").value,
+        MaBacSi: document.getElementById("MaBacSi").value,
+        NgayHen: document.getElementById("NgayHen").value,
+        GioHen: document.getElementById("GioHen").value + ":00",
+        TrangThai: document.getElementById("TrangThai").value,
+        LyDo: document.getElementById("LyDo").value,
+      };
 
-    const res = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
-      },
-      body: JSON.stringify(data),
+      if (!isUpdate) {
+        data.MaLichHen = await generateMaLich();
+      }
+      data.MaLich = isUpdate
+        ? maLichHen
+        : data.MaLichHen;
+
+      fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          if (!res.ok) return res.json().then((err) => Promise.reject(err));
+          return res.json();
+        })
+        .then((result) => {
+          alert("Lưu lịch thành công!");
+          resetForm();
+          loadAppointments();
+        })
+        .catch((err) => {
+          console.error("Lỗi:", err);
+          alert("❌ Thất bại: " + (err.detail || "Không rõ lỗi"));
+        });
     });
-
-    const result = await res.json();
-    if (res.ok) {
-      alert("Thành công!");
-      document.getElementById("appointment-form").reset();
-      loadAppointments();
-    } else {
-      alert(result.detail || "Có lỗi xảy ra");
-    }
-  });
 });
+
+async function generateMaLich() {
+  const res = await fetch(API_URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
+    },
+  });
+  const list = await res.json();
+  const maLichNumbers = list
+    .map((item) => item.MaLich)
+    .filter((m) => m && m.startsWith("LH"))
+    .map((m) => parseInt(m.replace("LH", ""), 10))
+    .filter((n) => !isNaN(n));
+
+  const maxSo = maLichNumbers.length > 0 ? Math.max(...maLichNumbers) : 0;
+  return "LH" + String(maxSo + 1).padStart(3, "0");
+}
 
 async function loadAppointments() {
   const res = await fetch(API_URL, {
@@ -58,7 +88,7 @@ async function loadAppointments() {
       <td>${a.MaBacSi}</td>
       <td>${a.MaLich}</td>
       <td>${a.NgayHen}</td>
-      <td>${a.GioHen}</td>
+      <td>${a.GioHen?.substring(0, 5) || ""}</td>
       <td>${a.TrangThai}</td>
       <td>${a.LyDo || ""}</td>
       <td>
@@ -77,14 +107,18 @@ async function editAppointment(id) {
   });
   const a = await res.json();
 
-  document.getElementById("MaLichHen").value = a.MaLichHen;
-  document.getElementById("MaBenhNhan").value = a.MaBenhNhan;
-  document.getElementById("MaBacSi").value = a.MaBacSi;
-  document.getElementById("MaLich").value = a.MaLich;
-  document.getElementById("NgayHen").value = a.NgayHen;
-  document.getElementById("GioHen").value = a.GioHen;
-  document.getElementById("TrangThai").value = a.TrangThai;
-  document.getElementById("LyDo").value = a.LyDo;
+  console.log("DỮ LIỆU EDIT:", a);
+
+  document.getElementById("MaLichHen").value = a.MaLichHen || "";
+  document.getElementById("MaBenhNhan").value = a.MaBenhNhan || "";
+  document.getElementById("MaBacSi").value = a.MaBacSi || "";
+  document.getElementById("NgayHen").value = a.NgayHen || "";
+  document.getElementById("GioHen").value = a.GioHen?.substring(0, 5) || ""; // Loại bỏ giây
+  document.getElementById("TrangThai").value = a.TrangThai || "";
+  document.getElementById("LyDo").value = a.LyDo || "";
+
+  // Nếu cần giữ lại MaLich để hiển thị
+  document.getElementById("MaLich").value = a.MaLich || "";
 }
 
 async function deleteAppointment(id) {
@@ -121,12 +155,12 @@ function searchAppointments() {
 
 function resetForm() {
   document.getElementById("appointment-form").reset();
+  document.getElementById("MaLichHen").value = "";
 }
 
 async function loadBenhNhanAndBacSi() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("access_token");
 
-  // Load bệnh nhân
   const benhnhanRes = await fetch("http://127.0.0.1:8000/api/v1/patient", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -141,7 +175,6 @@ async function loadBenhNhanAndBacSi() {
     benhNhanList.appendChild(opt);
   });
 
-  // Load bác sĩ
   const bacsiRes = await fetch("http://127.0.0.1:8000/api/v1/doctor/all", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -160,7 +193,6 @@ async function loadBenhNhanAndBacSi() {
 window.addEventListener("DOMContentLoaded", () => {
   loadBenhNhanAndBacSi();
 });
-
 
 window.editAppointment = editAppointment;
 window.deleteAppointment = deleteAppointment;

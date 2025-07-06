@@ -18,15 +18,12 @@ def get_one(id: str, db: Session = Depends(get_db)):
     return lh
 
 @router.post("/", response_model=schemas.LichHenOut)
-def create(data: schemas.LichHenCreate, db: Session = Depends(get_db)):
+def create_appointment(data: schemas.LichHenCreate, db: Session = Depends(get_db)):
     return services.create(db, data)
 
-@router.put("/{id}", response_model=schemas.LichHenOut)
-def update(id: str, data: schemas.LichHenUpdate, db: Session = Depends(get_db)):
-    lh = services.update(db, id, data)
-    if not lh:
-        raise HTTPException(status_code=404, detail="Không tìm thấy")
-    return lh
+@router.put("/{ma_lich_hen}", response_model=schemas.LichHenOut)
+def update_appointment(ma_lich_hen: str, data: schemas.LichHenCreate, db: Session = Depends(get_db)):
+    return services.update(db, ma_lich_hen, data)
 
 @router.delete("/{id}")
 def delete(id: str, db: Session = Depends(get_db)):

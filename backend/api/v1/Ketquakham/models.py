@@ -12,4 +12,7 @@ class KetQuaKham(Base):
     NgayThucHien = Column(Date)
 
     MaBenhNhan = Column(String(10), ForeignKey("benhnhan.MaBenhNhan"))
-    benh_nhan = relationship("BenhNhan", back_populates="ket_qua_kham")
+    benh_nhan = relationship("backend.api.v1.patient.models.BenhNhan", back_populates="ket_qua_kham")
+
+    
+from backend.api.v1.patient.models import BenhNhan

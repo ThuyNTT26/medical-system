@@ -35,16 +35,26 @@ document.addEventListener("DOMContentLoaded", function () {
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
-      console.log("DATA TRẢ VỀ:", result);
+      let result;
+      try {
+        result = await res.json();
+      } catch (e) {
+        result = { detail: "Lỗi không xác định" };
+      }
 
       if (res.ok) {
-        alert("Thành công!");
+        alert("Thêm bệnh nhân thành công!");
         document.getElementById("patient-form").reset();
-        document.getElementById("MaBenhNhan").value = ""; 
+        document.getElementById("MaBenhNhan").value = "";
         loadPatients();
       } else {
-        alert(result.detail || "Có lỗi xảy ra");
+        if (Array.isArray(result.detail)) {
+          // Trường hợp trả về dạng danh sách lỗi
+          const messages = result.detail.map((err) => err.msg).join("\n");
+          alert("Lỗi:\n" + messages);
+        } else {
+          alert("Lỗi: " + (result.detail || "Có lỗi xảy ra"));
+        }
       }
     });
 });
@@ -63,15 +73,15 @@ async function loadPatients() {
   data.forEach((p) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${p.MaBenhNhan}</td>
-      <td>${p.hoTen}</td>
-      <td>${p.ngaySinh || ""}</td>
-      <td>${p.gioiTinh === "M" ? "Nam" : "Nữ"}</td>
-      <td>${p.soDienThoai}</td>
-      <td>${p.email}</td>
-      <td>${p.diaChi}</td>
-      <td>${p.cccd}</td>
-      <td>${p.tienSuBenhLy}</td>
+        <td>${p.MaBenhNhan}</td>
+        <td>${p.HoTen}</td>
+        <td>${p.NgaySinh || ""}</td>
+        <td>${p.GioiTinh}</td>
+        <td>${p.SoDienThoai}</td>
+        <td>${p.Email}</td>
+        <td>${p.DiaChi}</td>
+        <td>${p.CCCD}</td>
+        <td>${p.TienSuBenhLy}</td>
       <td>
         <button onclick="editPatient('${p.MaBenhNhan}')">Sửa</button>
         <button onclick="deletePatient('${p.MaBenhNhan}')">Xoá</button>
@@ -92,14 +102,16 @@ async function editPatient(id) {
   document.getElementById("MaBenhNhan").value = p.MaBenhNhan;
   document.getElementById("hoTen").value = p.hoTen;
   document.getElementById("ngaySinh").value = p.ngaySinh;
-  document.getElementById("gioiTinh").value = p.gioiTinh === "M" ? "Nam" : "Nữ";
+  document.getElementById("gioiTinh").value = p.gioiTinh;
   document.getElementById("soDienThoai").value = p.soDienThoai;
   document.getElementById("email").value = p.email;
   document.getElementById("diaChi").value = p.diaChi;
   document.getElementById("cccd").value = p.cccd;
   document.getElementById("tienSuBenhLy").value = p.tienSuBenhLy;
 
-  document.getElementById("patient-form").scrollIntoView({ behavior: "smooth" });
+  document
+    .getElementById("patient-form")
+    .scrollIntoView({ behavior: "smooth" });
 }
 
 async function deletePatient(id) {
@@ -154,12 +166,12 @@ async function viewPatient(id) {
       <h3>Thông tin bệnh nhân</h3>
       <p><strong>Họ tên:</strong> ${data.benh_nhan.hoTen}</p>
       <p><strong>Ngày sinh:</strong> ${data.benh_nhan.ngaySinh || ""}</p>
-      <p><strong>Giới tính:</strong> ${
-        data.benh_nhan.gioiTinh === "M" ? "Nam" : "Nữ" || ""
-      }</p>
+      <p><strong>Giới tính:</strong> ${data.benh_nhan.gioiTinh || ""}</p>
       <p><strong>SĐT:</strong> ${data.benh_nhan.soDienThoai || ""}</p>
       <p><strong>CCCD:</strong> ${data.benh_nhan.cccd || ""}</p>
-      <p><strong>Tiền sử bệnh lý:</strong> ${data.benh_nhan.tienSuBenhLy || ""}</p>
+      <p><strong>Tiền sử bệnh lý:</strong> ${
+        data.benh_nhan.tienSuBenhLy || ""
+      }</p>
 
       <h3>Lịch sử khám</h3>
       <ul>

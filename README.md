@@ -141,11 +141,11 @@ routes.py	Router FastAPI /api/v1/...
 
 ### Backend (FastAPI)
 ```bash
-cd backend/
 python -m venv venv
 source venv/bin/activate  # hoặc venv\Scripts\activate trên Windows
 pip install -r requirements.txt
-uvicorn main:app --reload
+
+uvicorn backend.main:app --reload
 ```
 
 ### Frontend
@@ -155,11 +155,7 @@ uvicorn main:app --reload
 ---
 
 ### database
-- MySQL
-- mysql -u root -p medical_system< database/schema/init.sql
-- mysql -u root -p medical_system< database/schema/4_account.sql
-* dummy data:
-- mysql -u root -p medical_system< database/schema/seed-data.sql
+- mysql -u root -p --default-character-set=utf8mb4 medical_system< database/schema/seed-data.sql
 
 username: admin
 password: 123456

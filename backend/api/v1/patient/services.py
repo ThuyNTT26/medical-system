@@ -1,96 +1,94 @@
 from sqlalchemy.orm import Session
-from . import models, schemas
-from backend.api.v1.patient.models import BenhNhan
-from backend.api.v1.appointment.models import LichHenKham
-from backend.api.v1.Ketquakham.models import KetQuaKham
-from backend.api.v1.donthuoc.models import DonThuoc
+from sqlalchemy import text
+from . import schemas
 from backend.api.v1.appointment.schemas import LichHenCreate
-from backend.api.v1.appointment.schemas import LichHenOutHistory
-
 from fastapi import HTTPException
 
 def get_all(db: Session):
-    return db.query(BenhNhan).all()
+    rows = db.execute(text("SELECT * FROM `benhnhan`")).mappings().all()
+    return [schemas.BenhNhanOut(**row) for row in rows]
 
 def get_by_id(db: Session, ma_benh_nhan: str):
-    return db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
+    result = db.execute(
+        text("SELECT * FROM `benhnhan` WHERE `MaBenhNhan` = :ma"),
+        {"ma": ma_benh_nhan}
+    ).mappings().first()
+    return result
 
 def create(db: Session, data: schemas.BenhNhanCreate):
-    max_code = db.query(BenhNhan.MaBenhNhan).order_by(BenhNhan.MaBenhNhan.desc()).first()
-    if max_code and max_code[0]:
-        max_number = int(max_code[0][2:])
+    max_code = db.execute(text("SELECT `MaBenhNhan` FROM `benhnhan` ORDER BY `MaBenhNhan` DESC LIMIT 1")).scalar()
+    if max_code:
+        max_number = int(max_code[2:])
     else:
         max_number = 0
 
     new_code = f"BN{max_number + 1:03d}"
 
-    bn = BenhNhan(
-        MaBenhNhan=new_code,
-        hoTen=data.hoTen,
-        ngaySinh=data.ngaySinh,
-        gioiTinh=data.gioiTinh,
-        soDienThoai=data.soDienThoai,
-        email=data.email,
-        diaChi=data.diaChi,
-        cccd=data.cccd,
-        tienSuBenhLy=data.tienSuBenhLy
-    )
-
-    db.add(bn)
+    db.execute(text('''
+        INSERT INTO `benhnhan` (
+            `MaBenhNhan`, `hoTen`, `ngaySinh`, `gioiTinh`, `soDienThoai`,
+            `email`, `diaChi`, `cccd`, `tienSuBenhLy`
+        ) VALUES (
+            :ma, :hoTen, :ngaySinh, :gioiTinh, :soDienThoai,
+            :email, :diaChi, :cccd, :tienSuBenhLy
+        )
+    '''), {
+        "ma": new_code,
+        **data.dict()
+    })
     db.commit()
-    db.refresh(bn)
-    return bn
-
+    return get_by_id(db, new_code)
 
 def update(db: Session, ma_benh_nhan: str, data: schemas.BenhNhanUpdate):
-    bn = db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
-    if not bn:
-        return None
-    for key, value in data.dict(exclude_unset=True).items():
-        setattr(bn, key, value)
+    update_fields = ", ".join([f"{key} = :{key}" for key in data.dict(exclude_unset=True).keys()])
+    values = data.dict(exclude_unset=True)
+    values["ma"] = ma_benh_nhan
+
+    db.execute(
+        text(f"UPDATE `benhnhan` SET {update_fields} WHERE `MaBenhNhan` = :ma"),
+        values
+    )
     db.commit()
-    db.refresh(bn)
-    return bn
+    return get_by_id(db, ma_benh_nhan)
 
 def delete(db: Session, ma_benh_nhan: str):
-    bn = db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
-    if bn:
-        db.delete(bn)
+    result = get_by_id(db, ma_benh_nhan)
+    if result:
+        db.execute(
+            text("DELETE FROM `benhnhan` WHERE `MaBenhNhan` = :ma"),
+            {"ma": ma_benh_nhan}
+        )
         db.commit()
-    return bn
-
+    return result
 
 def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
-    bn = db.query(BenhNhan).filter(BenhNhan.MaBenhNhan == ma_benh_nhan).first()
+    bn = get_by_id(db, ma_benh_nhan)
     if not bn:
         raise HTTPException(status_code=404, detail="Không tìm thấy bệnh nhân")
 
-    lich_su_raw = db.query(LichHenKham).filter(LichHenKham.MaBenhNhan == ma_benh_nhan).all()
-    lich_su = [
-        schemas.LichHenOut(
-            MaLichHen=l.MaLichHen,             
-            ngay_kham=l.NgayHen,
-            ly_do=l.LyDo
-        ) for l in lich_su_raw
-]
-    
+    lich_su = db.execute(text('''
+        SELECT `MaLichHen`, `NgayHen`, `LyDo` FROM `lichhenkham`
+        WHERE `MaBenhNhan` = :ma
+    '''), {"ma": ma_benh_nhan}).mappings().all()
 
-    ket_qua_raw = db.query(KetQuaKham).filter(KetQuaKham.MaPhieuKham.in_(
-        db.query(KetQuaKham.MaPhieuKham).join(LichHenKham, KetQuaKham.MaPhieuKham == LichHenKham.MaLichHen)
-        .filter(LichHenKham.MaBenhNhan == ma_benh_nhan)
-    )).all()
-    ket_qua = [
-        schemas.KetQuaOut(chan_doan=k.ChanDoan, ghi_chu=k.GhiChu)
-        for k in ket_qua_raw
-    ]
+    ket_qua = db.execute(text('''
+        SELECT `ChanDoan`, `GhiChu` FROM `ketquakham`
+        WHERE `MaPhieuKham` IN (
+            SELECT `MaLichHen` FROM `lichhenkham`
+            WHERE `MaBenhNhan` = :ma
+        )
+    '''), {"ma": ma_benh_nhan}).mappings().all()
 
-    don_thuoc_raw = db.query(DonThuoc).filter(DonThuoc.MaKetQua.in_(
-        [k.MaKetQua for k in ket_qua_raw]
-    )).all()
-    don_thuoc = [
-        schemas.DonThuocOut(thuoc=d.Thuoc, lieu_luong=d.LieuLuong)
-        for d in don_thuoc_raw
-    ]
+    don_thuoc = db.execute(text('''
+        SELECT `Thuoc`, `LieuLuong` FROM `donthuoc`
+        WHERE `MaKetQua` IN (
+            SELECT `MaKetQua` FROM `ketquakham`
+            WHERE `MaPhieuKham` IN (
+                SELECT `MaLichHen` FROM `lichhenkham`
+                WHERE `MaBenhNhan` = :ma
+            )
+        )
+    '''), {"ma": ma_benh_nhan}).mappings().all()
 
     return {
         "benh_nhan": bn,
@@ -99,14 +97,20 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
         "don_thuoc": don_thuoc,
     }
 
-
-
 def get_lichhen(db: Session):
-    return db.query(LichHenKham).all()
+    return db.execute(text("SELECT * FROM `lichhenkham`"))\
+             .mappings().all()
 
 def create_lichhen(db: Session, lichhen: LichHenCreate):
-    db_lh = LichHen(**lichhen.dict())
-    db.add(db_lh)
+    db.execute(text('''
+        INSERT INTO `lichhenkham` (
+            `MaLichHen`, `MaBenhNhan`, `MaBacSi`, `MaLich`, `NgayHen`,
+            `GioHen`, `TrangThai`, `LyDo`
+        ) VALUES (
+            :MaLichHen, :MaBenhNhan, :MaBacSi, :MaLich, :NgayHen,
+            :GioHen, :TrangThai, :LyDo
+        )
+    '''), lichhen.dict())
     db.commit()
-    db.refresh(db_lh)
-    return db_lh
+    return db.execute(text("SELECT * FROM `lichhenkham` WHERE `MaLichHen` = :ma"),
+                      {"ma": lichhen.MaLichHen}).mappings().first()

@@ -53,7 +53,7 @@ CREATE TABLE `benhnhan` (
   `MaBenhNhan` varchar(10) NOT NULL,
   `HoTen` varchar(100) DEFAULT NULL,
   `NgaySinh` date DEFAULT NULL,
-  `GioiTinh` enum('F','M') DEFAULT NULL,
+  `GioiTinh` enum('Nam','Nữ') DEFAULT NULL,
   `SoDienThoai` varchar(20) DEFAULT NULL,
   `Email` varchar(100) DEFAULT NULL,
   `DiaChi` text,
