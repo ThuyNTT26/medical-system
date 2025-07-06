@@ -1,5 +1,7 @@
 from sqlalchemy import Column, String, Date, Text, ForeignKey
 from backend.core.database import Base
+from backend.api.v1.appointment.models import LichHenKham
+from backend.api.v1.patient.models import BenhNhan
 
 class PhieuKhamBenh(Base):
     __tablename__ = "PhieuKhamBenh"

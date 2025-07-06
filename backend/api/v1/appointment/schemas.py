@@ -4,11 +4,11 @@ from typing import Optional
 from datetime import date, time
 
 class LichHenOutHistory(BaseModel):
-    MaLichHen: str 
-    ngay_kham: Optional[date]
-    ly_do: Optional[str]
-    
-    model_config = ConfigDict(from_attributes=True) 
+    MaLichHen: str
+    NgayHen: Optional[date] 
+    LyDo: Optional[str]
+
+    model_config = ConfigDict(from_attributes=True)
 
 class LichHenBase(BaseModel):
     MaBenhNhan: Optional[str]

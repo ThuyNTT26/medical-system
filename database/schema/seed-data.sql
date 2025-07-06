@@ -301,10 +301,12 @@ UNLOCK TABLES;
 
 
 ALTER TABLE `chitietdonthuoc`
-ADD CONSTRAINT `chitietdonthuoc_ibfk_1` FOREIGN KEY (`MaDonThuoc`) REFERENCES `donthuoc` (`MaDonThuoc`);
+ADD CONSTRAINT `chitietdonthuoc_ibfk_1` FOREIGN KEY (`MaDonThuoc`) REFERENCES `donthuoc` (`MaDonThuoc`)
+ON DELETE CASCADE;
 
 ALTER TABLE `chitietdonthuoc`
-ADD CONSTRAINT `chitietdonthuoc_ibfk_2` FOREIGN KEY (`MaThuoc`) REFERENCES `thuoc` (`MaThuoc`);
+ADD CONSTRAINT `chitietdonthuoc_ibfk_2` FOREIGN KEY (`MaThuoc`) REFERENCES `thuoc` (`MaThuoc`)
+ON DELETE CASCADE;
 
 -- ALTER TABLE `donthuoc`
 -- ADD CONSTRAINT `donthuoc_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
@@ -317,11 +319,13 @@ ALTER TABLE `ketquakham` ADD CONSTRAINT `fk_benhnhan` FOREIGN KEY (`MaBenhNhan`)
 -- add CONSTRAINT `benh_ibfk_1` FOREIGN KEY (`MaKetQua`) REFERENCES `ketquakham` (`MaKetQua`);
 ALTER TABLE `lichhenkham`
 ADD CONSTRAINT `lichhenkham_ibfk_1`
-FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`);
+FOREIGN KEY (`MaBenhNhan`) REFERENCES `benhnhan` (`MaBenhNhan`)
+ON DELETE CASCADE;
 
 ALTER TABLE `lichhenkham`
 ADD CONSTRAINT `lichhenkham_ibfk_2`
-FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`);
+FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`)
+ON DELETE CASCADE;
 
 -- ALTER TABLE `lichhenkham`
 -- ADD CONSTRAINT `lichhenkham_ibfk_3`
@@ -335,7 +339,8 @@ ON DELETE SET NULL;
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_2`
-FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`);
+FOREIGN KEY (`MaBacSi`) REFERENCES `bacsi` (`MaBacSi`)
+ON DELETE CASCADE;
 
 ALTER TABLE `phieukhambenh`
 ADD CONSTRAINT `phieukhambenh_ibfk_3`
@@ -353,6 +358,7 @@ ON DELETE CASCADE;
 
 ALTER TABLE `thanhtoan`
 ADD CONSTRAINT `thanhtoan_ibfk_3`
-FOREIGN KEY (`NguoiThuTien`) REFERENCES `nhanvien` (`MaNhanVien`);
+FOREIGN KEY (`NguoiThuTien`) REFERENCES `nhanvien` (`MaNhanVien`)
+ON DELETE CASCADE;
 
 -- Dump completed on 2025-06-19 13:57:59

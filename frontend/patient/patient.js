@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (res.ok) {
-        alert("Thêm bệnh nhân thành công!");
+        alert("Thành công!");
         document.getElementById("patient-form").reset();
         document.getElementById("MaBenhNhan").value = "";
         loadPatients();
@@ -100,14 +100,14 @@ async function editPatient(id) {
   const p = await res.json();
   console.log("DATA TRẢ VỀ:", p);
   document.getElementById("MaBenhNhan").value = p.MaBenhNhan;
-  document.getElementById("hoTen").value = p.hoTen;
-  document.getElementById("ngaySinh").value = p.ngaySinh;
-  document.getElementById("gioiTinh").value = p.gioiTinh;
-  document.getElementById("soDienThoai").value = p.soDienThoai;
-  document.getElementById("email").value = p.email;
-  document.getElementById("diaChi").value = p.diaChi;
-  document.getElementById("cccd").value = p.cccd;
-  document.getElementById("tienSuBenhLy").value = p.tienSuBenhLy;
+  document.getElementById("hoTen").value = p.HoTen;
+  document.getElementById("ngaySinh").value = p.NgaySinh;
+  document.getElementById("gioiTinh").value = p.GioiTinh;
+  document.getElementById("soDienThoai").value = p.SoDienThoai;
+  document.getElementById("email").value = p.Email;
+  document.getElementById("diaChi").value = p.DiaChi;
+  document.getElementById("cccd").value = p.CCCD;
+  document.getElementById("tienSuBenhLy").value = p.TienSuBenhLy;
 
   document
     .getElementById("patient-form")
@@ -157,20 +157,23 @@ async function viewPatient(id) {
       },
     });
 
+    console.log("URL:", `${API_URL}/${id}/hosos`);
+    console.log("Token:", token);
     const data = await res.json();
     console.log("DỮ LIỆU HỒ SƠ:", data);
+
 
     const hosoDiv = document.getElementById("hoso-content");
 
     const content = `
       <h3>Thông tin bệnh nhân</h3>
-      <p><strong>Họ tên:</strong> ${data.benh_nhan.hoTen}</p>
-      <p><strong>Ngày sinh:</strong> ${data.benh_nhan.ngaySinh || ""}</p>
-      <p><strong>Giới tính:</strong> ${data.benh_nhan.gioiTinh || ""}</p>
-      <p><strong>SĐT:</strong> ${data.benh_nhan.soDienThoai || ""}</p>
-      <p><strong>CCCD:</strong> ${data.benh_nhan.cccd || ""}</p>
+      <p><strong>Họ tên:</strong> ${data.benh_nhan.HoTen}</p>
+      <p><strong>Ngày sinh:</strong> ${data.benh_nhan.NgaySinh || ""}</p>
+      <p><strong>Giới tính:</strong> ${data.benh_nhan.GioiTinh || ""}</p>
+      <p><strong>SĐT:</strong> ${data.benh_nhan.SoDienThoai || ""}</p>
+      <p><strong>CCCD:</strong> ${data.benh_nhan.CCCD || ""}</p>
       <p><strong>Tiền sử bệnh lý:</strong> ${
-        data.benh_nhan.tienSuBenhLy || ""
+        data.benh_nhan.TienSuBenhLy || ""
       }</p>
 
       <h3>Lịch sử khám</h3>

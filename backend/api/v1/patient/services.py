@@ -62,16 +62,30 @@ def delete(db: Session, ma_benh_nhan: str):
     return result
 
 def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
+    print("🔍 Lấy hồ sơ cho:", ma_benh_nhan)
     bn = get_by_id(db, ma_benh_nhan)
     if not bn:
         raise HTTPException(status_code=404, detail="Không tìm thấy bệnh nhân")
 
-    lich_su = db.execute(text('''
-        SELECT `MaLichHen`, `NgayHen`, `LyDo` FROM `lichhenkham`
-        WHERE `MaBenhNhan` = :ma
-    '''), {"ma": ma_benh_nhan}).mappings().all()
+    try:
+        lich_su_raw = db.execute(text('''
+            SELECT `MaLichHen`, `NgayHen`, `LyDo` FROM `lichhenkham`
+            WHERE `MaBenhNhan` = :ma
+        '''), {"ma": ma_benh_nhan}).mappings().all()
 
-    ket_qua = db.execute(text('''
+        lich_su = [
+            schemas.LichHenOutHistory(
+                MaLichHen=row["MaLichHen"],
+                ngay_kham=row["NgayHen"],
+                ly_do=row["LyDo"]
+            ) for row in lich_su_raw
+        ]
+    except Exception as e:
+        print("❌ Lỗi lịch sử khám:", e)
+        lich_su = []
+
+    try:
+        ket_qua = db.execute(text('''
         SELECT `ChanDoan`, `GhiChu` FROM `ketquakham`
         WHERE `MaPhieuKham` IN (
             SELECT `MaLichHen` FROM `lichhenkham`
@@ -79,7 +93,12 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
         )
     '''), {"ma": ma_benh_nhan}).mappings().all()
 
-    don_thuoc = db.execute(text('''
+    except Exception as e:
+        print("❌ Lỗi kết quả khám:", e)
+        ket_qua = []
+
+    try:
+        don_thuoc = db.execute(text('''
         SELECT `Thuoc`, `LieuLuong` FROM `donthuoc`
         WHERE `MaKetQua` IN (
             SELECT `MaKetQua` FROM `ketquakham`
@@ -89,6 +108,11 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
             )
         )
     '''), {"ma": ma_benh_nhan}).mappings().all()
+    except Exception as e:
+        print("❌ Lỗi đơn thuốc:", e)
+        don_thuoc = []
+
+    
 
     return {
         "benh_nhan": bn,
@@ -96,6 +120,14 @@ def get_hoso_chi_tiet(db: Session, ma_benh_nhan: str):
         "ket_qua": ket_qua,
         "don_thuoc": don_thuoc,
     }
+
+
+
+
+
+
+
+
 
 def get_lichhen(db: Session):
     return db.execute(text("SELECT * FROM `lichhenkham`"))\

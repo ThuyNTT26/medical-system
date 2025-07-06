@@ -23,6 +23,7 @@ def get_me(current_user: TaiKhoan = Depends(get_current_user)):
 @router.post("/login", response_model=schemas.TokenResponse)
 def login(data: schemas.LoginRequest, db: Session = Depends(get_db)):
     user = services.authenticate_user(db, data.tenDangNhap, data.matKhau)
+    print("🔐 Tìm thấy user:", user)
     if not user:
         raise HTTPException(status_code=401, detail="Sai tài khoản hoặc mật khẩu")
     token = security.create_access_token({"sub": user.tenDangNhap})
