@@ -141,10 +141,11 @@ routes.py	Router FastAPI /api/v1/...
 
 ### Backend (FastAPI)
 ```bash
+cd backend
 python -m venv venv
 source venv/bin/activate  # hoặc venv\Scripts\activate trên Windows
 pip install -r requirements.txt
-
+cd ..
 uvicorn backend.main:app --reload
 ```
 
